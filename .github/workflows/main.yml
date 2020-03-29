@@ -12,5 +12,5 @@ jobs:
         uses: "./"
         with:
             command: apply
-            params: '{"a": 1, "b": "2"'
+            params: '{"a": 1, "b": "2"}'
             
