@@ -56,91 +56,91 @@ async function executeApply(inputs: ApplyOptions): Promise<{}> {
   return inputs
 }
 
-function executeConsole(inputs: ConsoleOptions): {} {
+async function executeConsole(inputs: ConsoleOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeDestroy(inputs: DestroyOptions): {} {
+async function executeDestroy(inputs: DestroyOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeEnv(inputs: EnvOptions): {} {
+async function executeEnv(inputs: EnvOptions): Promise<{}> {
   core.info('This command is deprecated. Please use workspace command')
   return inputs
 }
-function executeFmt(inputs: FmtOptions): {} {
+async function executeFmt(inputs: FmtOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeGet(inputs: GetOptions): {} {
+async function executeGet(inputs: GetOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeGraph(inputs: GraphOptions): {} {
+async function executeGraph(inputs: GraphOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeImport(inputs: ImportOptions): {} {
+async function executeImport(inputs: ImportOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeInit(inputs: InitOptions): {} {
+async function executeInit(inputs: InitOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeOutput(inputs: OutputOptions): {} {
+async function executeOutput(inputs: OutputOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executePlan(inputs: PlanOptions): {} {
+async function executePlan(inputs: PlanOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeProviders(inputs: ProvidersOptions): {} {
+async function executeProviders(inputs: ProvidersOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeRefresh(inputs: RefreshOptions): {} {
+async function executeRefresh(inputs: RefreshOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeShow(inputs: ShowOptions): {} {
+async function executeShow(inputs: ShowOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeTaint(inputs: TaintOptions): {} {
+async function executeTaint(inputs: TaintOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeUntaint(inputs: UntaintOptions): {} {
+async function executeUntaint(inputs: UntaintOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeValidate(inputs: ValidateOptions): {} {
+async function executeValidate(inputs: ValidateOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeVersion(inputs: VersionOptions): {} {
+async function executeVersion(inputs: VersionOptions): Promise<{}> {
+  await exec.exec('terraform', ['-version'], setOptions(inputs))
+  return inputs
+}
+async function executeWorkspace(inputs: WorkspaceOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeWorkspace(inputs: WorkspaceOptions): {} {
+async function execute012Upgrade(inputs: Upgrade012Options): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function execute012Upgrade(inputs: Upgrade012Options): {} {
+async function executeDebug(inputs: DebugOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeDebug(inputs: DebugOptions): {} {
+async function executeForceUnlock(inputs: ForceUnlockOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeForceUnlock(inputs: ForceUnlockOptions): {} {
-  core.info('This command is not ready yet. Please check back later.')
-  return inputs
-}
-function executeState(inputs: StateOptions): {} {
+async function executeState(inputs: StateOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
