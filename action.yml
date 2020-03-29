@@ -10,7 +10,9 @@ inputs:
     required: False
 outputs:
   commandOutput:
-    description: output from the Terraform commands
+    description: std output from the Terraform commands
+  commandError:
+    description: std error from the Terraform commands
   
 runs:
   using: 'node12'

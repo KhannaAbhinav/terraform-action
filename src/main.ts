@@ -1,95 +1,146 @@
 import * as core from '@actions/core'
-// import * as exec from '@actions/exec'
+import * as exec from '@actions/exec'
+import {ExecOptions} from '@actions/exec/lib/interfaces'
+import {
+  ApplyOptions,
+  ConsoleOptions,
+  DebugOptions,
+  DestroyOptions,
+  EnvOptions,
+  FmtOptions,
+  ForceUnlockOptions,
+  GetOptions,
+  GraphOptions,
+  ImportOptions,
+  InitOptions,
+  OutputOptions,
+  PlanOptions,
+  ProvidersOptions,
+  RefreshOptions,
+  ShowOptions,
+  StateOptions,
+  TaintOptions,
+  UntaintOptions,
+  Upgrade012Options,
+  ValidateOptions,
+  VersionOptions,
+  WorkspaceOptions,
+  TerraformOptions
+} from './typings/interfaces'
 
-function executeApply(inputs: {}): {} {
+function setOptions(inputs: TerraformOptions): ExecOptions {
+  let myOutput = ''
+  let myError = ''
+
+  const options: ExecOptions = {}
+  if (inputs.cwd) {
+    options.cwd = inputs.cwd
+  }
+  options.listeners = {
+    stdout: (data: Buffer) => {
+      myOutput += data.toString()
+    },
+    stderr: (data: Buffer) => {
+      myError += data.toString()
+    }
+  }
+  core.info(myOutput)
+  core.info(myError)
+  core.setOutput('commandOutput', myOutput)
+  core.setOutput('commandError', myError)
+  return options
+}
+
+async function executeApply(inputs: ApplyOptions): Promise<{}> {
+  await exec.exec('terraform', ['apply', ''], setOptions(inputs))
+  return inputs
+}
+
+function executeConsole(inputs: ConsoleOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeConsole(inputs: {}): {} {
+function executeDestroy(inputs: DestroyOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeDestroy(inputs: {}): {} {
+function executeEnv(inputs: EnvOptions): {} {
+  core.info('This command is deprecated. Please use workspace command')
+  return inputs
+}
+function executeFmt(inputs: FmtOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeEnv(inputs: {}): {} {
+function executeGet(inputs: GetOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeFmt(inputs: {}): {} {
+function executeGraph(inputs: GraphOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeGet(inputs: {}): {} {
+function executeImport(inputs: ImportOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeGraph(inputs: {}): {} {
+function executeInit(inputs: InitOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeImport(inputs: {}): {} {
+function executeOutput(inputs: OutputOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeInit(inputs: {}): {} {
+function executePlan(inputs: PlanOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeOutput(inputs: {}): {} {
+function executeProviders(inputs: ProvidersOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executePlan(inputs: {}): {} {
+function executeRefresh(inputs: RefreshOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeProviders(inputs: {}): {} {
+function executeShow(inputs: ShowOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeRefresh(inputs: {}): {} {
+function executeTaint(inputs: TaintOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeShow(inputs: {}): {} {
+function executeUntaint(inputs: UntaintOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeTaint(inputs: {}): {} {
+function executeValidate(inputs: ValidateOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeUntaint(inputs: {}): {} {
+function executeVersion(inputs: VersionOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeValidate(inputs: {}): {} {
+function executeWorkspace(inputs: WorkspaceOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeVersion(inputs: {}): {} {
+function execute012Upgrade(inputs: Upgrade012Options): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeWorkspace(inputs: {}): {} {
+function executeDebug(inputs: DebugOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function execute012Upgrade(inputs: {}): {} {
+function executeForceUnlock(inputs: ForceUnlockOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
-function executeDebug(inputs: {}): {} {
-  core.info('This command is not ready yet. Please check back later.')
-  return inputs
-}
-function executeForceUnlock(inputs: {}): {} {
-  core.info('This command is not ready yet. Please check back later.')
-  return inputs
-}
-function executeState(inputs: {}): {} {
+function executeState(inputs: StateOptions): {} {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
 }
@@ -110,73 +161,73 @@ async function main(): Promise<void> {
 
     switch (terraformCommand) {
       case 'apply':
-        terraformOutput = executeApply(terraformInputs)
+        terraformOutput = executeApply(terraformInputs as ApplyOptions)
         break
       case 'console':
-        terraformOutput = executeConsole(terraformInputs)
+        terraformOutput = executeConsole(terraformInputs as ConsoleOptions)
         break
       case 'destroy':
-        terraformOutput = executeDestroy(terraformInputs)
+        terraformOutput = executeDestroy(terraformInputs as DestroyOptions)
         break
       case 'env':
-        terraformOutput = executeEnv(terraformInputs)
+        terraformOutput = executeEnv(terraformInputs as EnvOptions)
         break
       case 'fmt':
-        terraformOutput = executeFmt(terraformInputs)
+        terraformOutput = executeFmt(terraformInputs as FmtOptions)
         break
       case 'get':
-        terraformOutput = executeGet(terraformInputs)
+        terraformOutput = executeGet(terraformInputs as GetOptions)
         break
       case 'graph':
-        terraformOutput = executeGraph(terraformInputs)
+        terraformOutput = executeGraph(terraformInputs as GraphOptions)
         break
       case 'import':
-        terraformOutput = executeImport(terraformInputs)
+        terraformOutput = executeImport(terraformInputs as ImportOptions)
         break
       case 'init':
-        terraformOutput = executeInit(terraformInputs)
+        terraformOutput = executeInit(terraformInputs as InitOptions)
         break
       case 'output':
-        terraformOutput = executeOutput(terraformInputs)
+        terraformOutput = executeOutput(terraformInputs as OutputOptions)
         break
       case 'plan':
-        terraformOutput = executePlan(terraformInputs)
+        terraformOutput = executePlan(terraformInputs as PlanOptions)
         break
       case 'providers':
-        terraformOutput = executeProviders(terraformInputs)
+        terraformOutput = executeProviders(terraformInputs as ProvidersOptions)
         break
       case 'refresh':
-        terraformOutput = executeRefresh(terraformInputs)
+        terraformOutput = executeRefresh(terraformInputs as RefreshOptions)
         break
       case 'show':
-        terraformOutput = executeShow(terraformInputs)
+        terraformOutput = executeShow(terraformInputs as ShowOptions)
         break
       case 'taint':
-        terraformOutput = executeTaint(terraformInputs)
+        terraformOutput = executeTaint(terraformInputs as TaintOptions)
         break
       case 'untaint':
-        terraformOutput = executeUntaint(terraformInputs)
+        terraformOutput = executeUntaint(terraformInputs as UntaintOptions)
         break
       case 'validate':
-        terraformOutput = executeValidate(terraformInputs)
+        terraformOutput = executeValidate(terraformInputs as ValidateOptions)
         break
       case 'version':
-        terraformOutput = executeVersion(terraformInputs)
+        terraformOutput = executeVersion(terraformInputs as VersionOptions)
         break
       case 'workspace':
-        terraformOutput = executeWorkspace(terraformInputs)
+        terraformOutput = executeWorkspace(terraformInputs as WorkspaceOptions)
         break
       case '0.12upgrade':
-        terraformOutput = execute012Upgrade(terraformInputs)
+        terraformOutput = execute012Upgrade(terraformInputs as Upgrade012Options)
         break
       case 'debug':
-        terraformOutput = executeDebug(terraformInputs)
+        terraformOutput = executeDebug(terraformInputs as DebugOptions)
         break
       case 'force-unlock':
-        terraformOutput = executeForceUnlock(terraformInputs)
+        terraformOutput = executeForceUnlock(terraformInputs as ForceUnlockOptions)
         break
       case 'state':
-        terraformOutput = executeState(terraformInputs)
+        terraformOutput = executeState(terraformInputs as StateOptions)
         break
 
       default:
