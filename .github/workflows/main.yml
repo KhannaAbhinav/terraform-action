@@ -2,7 +2,7 @@ name: A workflow to execute Terraform commands
 on: push
 jobs:
   build:
-    name: Call Action Group
+    name: Execute Terraform Commands
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Files

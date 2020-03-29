@@ -9,7 +9,7 @@ inputs:
     description: input to the Terraform command
     required: False
 outputs:
-  commandOutputs:
+  commandOutput:
     description: output from the Terraform commands
   
 runs:

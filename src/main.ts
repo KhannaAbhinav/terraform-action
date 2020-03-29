@@ -106,80 +106,83 @@ async function main(): Promise<void> {
     console.debug(`command :  ${terraformCommand}`)
     console.debug(`params :  ${terraformInputs}`)
 
+    let terraformOutput = {}
+
     switch (terraformCommand) {
       case 'apply':
-        executeApply(terraformInputs)
+        terraformOutput = executeApply(terraformInputs)
         break
       case 'console':
-        executeConsole(terraformInputs)
+        terraformOutput = executeConsole(terraformInputs)
         break
       case 'destroy':
-        executeDestroy(terraformInputs)
+        terraformOutput = executeDestroy(terraformInputs)
         break
       case 'env':
-        executeEnv(terraformInputs)
+        terraformOutput = executeEnv(terraformInputs)
         break
       case 'fmt':
-        executeFmt(terraformInputs)
+        terraformOutput = executeFmt(terraformInputs)
         break
       case 'get':
-        executeGet(terraformInputs)
+        terraformOutput = executeGet(terraformInputs)
         break
       case 'graph':
-        executeGraph(terraformInputs)
+        terraformOutput = executeGraph(terraformInputs)
         break
       case 'import':
-        executeImport(terraformInputs)
+        terraformOutput = executeImport(terraformInputs)
         break
       case 'init':
-        executeInit(terraformInputs)
+        terraformOutput = executeInit(terraformInputs)
         break
       case 'output':
-        executeOutput(terraformInputs)
+        terraformOutput = executeOutput(terraformInputs)
         break
       case 'plan':
-        executePlan(terraformInputs)
+        terraformOutput = executePlan(terraformInputs)
         break
       case 'providers':
-        executeProviders(terraformInputs)
+        terraformOutput = executeProviders(terraformInputs)
         break
       case 'refresh':
-        executeRefresh(terraformInputs)
+        terraformOutput = executeRefresh(terraformInputs)
         break
       case 'show':
-        executeShow(terraformInputs)
+        terraformOutput = executeShow(terraformInputs)
         break
       case 'taint':
-        executeTaint(terraformInputs)
+        terraformOutput = executeTaint(terraformInputs)
         break
       case 'untaint':
-        executeUntaint(terraformInputs)
+        terraformOutput = executeUntaint(terraformInputs)
         break
       case 'validate':
-        executeValidate(terraformInputs)
+        terraformOutput = executeValidate(terraformInputs)
         break
       case 'version':
-        executeVersion(terraformInputs)
+        terraformOutput = executeVersion(terraformInputs)
         break
       case 'workspace':
-        executeWorkspace(terraformInputs)
+        terraformOutput = executeWorkspace(terraformInputs)
         break
       case '0.12upgrade':
-        execute012Upgrade(terraformInputs)
+        terraformOutput = execute012Upgrade(terraformInputs)
         break
       case 'debug':
-        executeDebug(terraformInputs)
+        terraformOutput = executeDebug(terraformInputs)
         break
       case 'force-unlock':
-        executeForceUnlock(terraformInputs)
+        terraformOutput = executeForceUnlock(terraformInputs)
         break
       case 'state':
-        executeState(terraformInputs)
+        terraformOutput = executeState(terraformInputs)
         break
 
       default:
         core.setFailed('Invalid Command or Command not implemented yet')
     }
+    core.setOutput('commandOutput', JSON.stringify(terraformOutput))
   } catch (error) {
     core.info(error)
     core.setFailed(error.message)
