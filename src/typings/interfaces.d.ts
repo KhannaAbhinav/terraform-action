@@ -85,7 +85,7 @@ interface OutputTerraformOptions {
 interface PlanTerraformOptions {
   compactWarnings?: string
   destroy?: string
-  detialedExitCode?: string
+  detailedExitCode?: string
   lock?: string
   lockTimeout?: string
   input?: string
@@ -100,7 +100,7 @@ interface PlanTerraformOptions {
     [key: string]: string
   }
   varFile?: string
-  dirOrPlan?: string
+  dir?: string
 }
 interface ProvidersTerraformOptions {
   configPath?: string

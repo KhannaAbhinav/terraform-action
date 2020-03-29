@@ -36,6 +36,8 @@ function setOptions(inputs: TerraformOptions): ExecOptions {
   if (inputs.cwd) {
     options.cwd = inputs.cwd
   }
+  options.failOnStdErr = true
+
   options.listeners = {
     stdout: (data: Buffer) => {
       myOutput += data.toString()
@@ -46,13 +48,47 @@ function setOptions(inputs: TerraformOptions): ExecOptions {
   }
   core.info(myOutput)
   core.info(myError)
-  core.setOutput('commandOutput', myOutput)
-  core.setOutput('commandError', myError)
   return options
 }
 
 async function executeApply(inputs: ApplyOptions): Promise<{}> {
-  await exec.exec('terraform', ['apply', ''], setOptions(inputs))
+  const args = ['plan']
+
+  if (inputs.compactWarnings && Boolean(inputs.compactWarnings) === true) args.push('-compact-warnings')
+
+  if (inputs.backup) args.push(`-backup=${inputs.backup}`)
+
+  if (inputs.input) args.push(`-input=${Boolean(inputs.input)}`)
+
+  if (inputs.lock) args.push(`-lock=${Boolean(inputs.lock)}`)
+
+  if (inputs.lockTimeout) args.push(`-lock-timeout=${+inputs.lockTimeout}`)
+
+  if (inputs.noColor && Boolean(inputs.noColor) === true) args.push('-no-color')
+
+  if (inputs.autoApprove && Boolean(inputs.autoApprove) === true) args.push('-auto-approve')
+
+  if (inputs.parallelism) args.push(`-parallelism=${+inputs.parallelism}`)
+
+  if (inputs.refresh) args.push(`-refresh=${Boolean(inputs.refresh)}`)
+
+  if (inputs.state) args.push(`-state=${inputs.state}`)
+
+  if (inputs.stateOut) args.push(`-state-out=${inputs.stateOut}`)
+
+  if (inputs.target) args.push(`-target=${inputs.target}`)
+
+  if (inputs.var) {
+    const varMap = new Map(Object.entries(inputs.var))
+    for (const key of varMap.keys()) {
+      args.push(`-var ${key}=${varMap.get(key)}`)
+    }
+  }
+
+  if (inputs.varFile) args.push(`-var-file=${inputs.varFile}`)
+
+  if (inputs.dirOrPlan) args.push(inputs.dirOrPlan)
+  await exec.exec('terraform', args, setOptions(inputs))
   return inputs
 }
 
@@ -85,7 +121,20 @@ async function executeImport(inputs: ImportOptions): Promise<{}> {
   return inputs
 }
 async function executeInit(inputs: InitOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  const args = ['init']
+  if (inputs.input) args.push(`-input=${Boolean(inputs.input)}`)
+
+  if (inputs.lock) args.push(`-lock=${Boolean(inputs.lock)}`)
+
+  if (inputs.lockTimeout) args.push(`-lock-timeout=${+inputs.lockTimeout}`)
+
+  if (inputs.noColor && Boolean(inputs.noColor) === true) args.push('-no-color')
+
+  if (inputs.upgrade && Boolean(inputs.upgrade) === true) args.push('-upgrade')
+
+  if (inputs.dir) args.push(inputs.dir)
+
+  await exec.exec('terraform', args, setOptions(inputs))
   return inputs
 }
 async function executeOutput(inputs: OutputOptions): Promise<{}> {
@@ -93,7 +142,45 @@ async function executeOutput(inputs: OutputOptions): Promise<{}> {
   return inputs
 }
 async function executePlan(inputs: PlanOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  const args = ['plan']
+
+  if (inputs.compactWarnings && Boolean(inputs.compactWarnings) === true) args.push('-compact-warnings')
+
+  if (inputs.destroy && Boolean(inputs.destroy) === true) args.push('-destroy')
+
+  if (inputs.detailedExitCode && Boolean(inputs.detailedExitCode) === true) args.push('-detailed-exitcode')
+
+  if (inputs.input) args.push(`-input=${Boolean(inputs.input)}`)
+
+  if (inputs.lock) args.push(`-lock=${Boolean(inputs.lock)}`)
+
+  if (inputs.lockTimeout) args.push(`-lock-timeout=${+inputs.lockTimeout}`)
+
+  if (inputs.noColor && Boolean(inputs.noColor) === true) args.push('-no-color')
+
+  if (inputs.out) args.push(`-out=${inputs.out}`)
+
+  if (inputs.parallelism) args.push(`-parallelism=${+inputs.parallelism}`)
+
+  if (inputs.refresh) args.push(`-refresh=${Boolean(inputs.refresh)}`)
+
+  if (inputs.state) args.push(`-state=${inputs.state}`)
+
+  if (inputs.target) args.push(`-target=${inputs.target}`)
+
+  if (inputs.var) {
+    const varMap = new Map(Object.entries(inputs.var))
+    for (const key of varMap.keys()) {
+      args.push(`-var ${key}=${varMap.get(key)}`)
+    }
+  }
+
+  if (inputs.varFile) args.push(`-var-file=${inputs.varFile}`)
+
+  if (inputs.dir) args.push(inputs.dir)
+
+  await exec.exec('terraform', args, setOptions(inputs))
+
   return inputs
 }
 async function executeProviders(inputs: ProvidersOptions): Promise<{}> {

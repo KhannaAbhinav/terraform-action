@@ -12,18 +12,17 @@ jobs:
         uses: "./"
         with:
             command: version
-            params: '{"a": 1, "b": "2"}'
       - name: Call Terraform Action
         id: tf2
         uses: "./"
         with:
-            command: plan
-            params: '{"a": 1, "b": "2"}'
+            command: init
+            params: '{"dir":  "C:\Users\abhin\tf"}'
       
       - name: Call Terraform Action
         id: tf3
         uses: "./"
         with:
-            command: apply
-            params: '{"a": 1, "b": "2"}'
+            command: plan
+            params: '{"dir":  "C:\Users\abhin\tf", "compactWarnings" : true, "detailedExitCode": true, "lock", false}'
             
