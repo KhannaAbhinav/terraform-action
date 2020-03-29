@@ -1,0 +1,21 @@
+name: Execute Terraform commands
+author: Abhinav Khanna
+description: Execute Terraform commands using Terraform CLI
+inputs: 
+  command:
+    description: Terraform Command to execute
+    required: True
+  params:
+    description: input to the Terraform command
+    required: False
+outputs:
+  commandOutputs:
+    description: output from the Terraform commands
+  
+runs:
+  using: 'node12'
+  main:  'dist/index.js'
+
+branding:
+  icon: 'globe'  
+  color: 'red'
