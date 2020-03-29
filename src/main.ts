@@ -237,7 +237,7 @@ async function main(): Promise<void> {
     const terraformCommand = core.getInput('command')
 
     let terraformInputs = {}
-    if (null != core.getInput('params') || core.getInput('params') !== '') {
+    if (core.getInput('params') || core.getInput('params') !== '') {
       terraformInputs = JSON.parse(core.getInput('params'))
     }
 
