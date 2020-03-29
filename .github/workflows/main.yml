@@ -14,14 +14,14 @@ jobs:
             command: version
             params: '{"a": 1, "b": "2"}'
       - name: Call Terraform Action
-        id: tf1
+        id: tf2
         uses: "./"
         with:
             command: plan
             params: '{"a": 1, "b": "2"}'
       
       - name: Call Terraform Action
-        id: tf1
+        id: tf3
         uses: "./"
         with:
             command: apply
