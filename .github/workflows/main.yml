@@ -20,7 +20,7 @@ jobs:
             params: |
               {
                 "cwd":  "./tf",
-                "noColor" : true,
+                "noColor" : false,
                 "upgrade": false
               }
         
@@ -32,12 +32,11 @@ jobs:
             command: plan
             params: |
               { 
-                "dir": "./tf", 
                 "var": {
                   "github_token": "${{ secrets.access_token }}",
                   "github_organization": "KhannaAbhinav"
                 },
-                "out" : "tf.plan",
+                "out" : "tf.plan.json",
                 "cwd" : "./tf"
               }
         env:
@@ -50,7 +49,7 @@ jobs:
             command: apply
             params:  | 
               {
-                "dirOrPlan":  "tf.plan",
+                "dirOrPlan":  "tf.plan.json",
                 "cwd": "./tf"
               }
         env:
