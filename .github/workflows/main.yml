@@ -28,8 +28,6 @@ jobs:
             params: |
               { 
                 "dir":  "./tf", 
-                "compactWarnings" : true, 
-                "detailedExitCode": true, 
                 "var": {
                   "github_token": "${{ secrets.access_token }}",
                   "github_organization": "KhannaAbhinav"
