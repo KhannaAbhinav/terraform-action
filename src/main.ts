@@ -42,11 +42,9 @@ function setOptions(inputs: TerraformOptions): ExecOptions {
   options.listeners = {
     stdout: (data: Buffer) => {
       myOutput += data.toString()
-      core.info(myOutput)
     },
     stderr: (data: Buffer) => {
       myError += data.toString()
-      core.info(myError)
     }
   }
   core.info(myOutput)

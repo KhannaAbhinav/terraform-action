@@ -983,11 +983,9 @@ function setOptions(inputs) {
     options.listeners = {
         stdout: (data) => {
             myOutput += data.toString();
-            core.info(myOutput);
         },
         stderr: (data) => {
             myError += data.toString();
-            core.info(myError);
         }
     };
     core.info(myOutput);
