@@ -47,4 +47,3 @@ jobs:
             params: '{"dir":  "./tf"}'
         env:
           GITHUB_TOKEN: ${{ secrets.access_token }}
-           
