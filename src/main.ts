@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
-
+import {addValueToArgs} from './utils'
 import {ExecOptions} from '@actions/exec/lib/interfaces'
 import {
   ApplyOptions,
@@ -122,19 +122,13 @@ async function executeImport(inputs: ImportOptions): Promise<{}> {
   return inputs
 }
 async function executeInit(inputs: InitOptions): Promise<{}> {
-  const args = ['init']
-
-  if ('input' in inputs) args.push(`-input=${Boolean(inputs.input)}`)
-
-  if ('lock' in inputs) args.push(`-lock=${Boolean(inputs.lock)}`)
-
-  if (inputs.lockTimeout) args.push(`-lock-timeout=${+inputs.lockTimeout}`)
-
-  if (inputs.noColor && Boolean(inputs.noColor) === true) args.push('-no-color')
-
-  if (inputs.upgrade && Boolean(inputs.upgrade) === true) args.push('-upgrade')
-
-  if (inputs.dir) args.push(inputs.dir)
+  let args = ['init']
+  args = addValueToArgs('boolean', 'input', inputs.input, args)
+  args = addValueToArgs('boolean', 'lock', inputs.lock, args)
+  args = addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args)
+  args = addValueToArgs('flag', 'no-color', inputs.noColor, args)
+  args = addValueToArgs('flag', 'upgrade', inputs.upgrade, args)
+  args = addValueToArgs('path', '', inputs.dir, args)
 
   await exec.exec('terraform', args, setOptions(inputs))
   return inputs

@@ -20,7 +20,8 @@ jobs:
             params: |
               {
                 "cwd":  "./tf",
-                "noColor" : false
+                "noColor" : true,
+                "upgrade": false
               }
         
       

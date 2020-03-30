@@ -972,6 +972,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const exec = __importStar(__webpack_require__(986));
+const utils_1 = __webpack_require__(611);
 function setOptions(inputs) {
     let myOutput = '';
     let myError = '';
@@ -1077,19 +1078,13 @@ function executeImport(inputs) {
 }
 function executeInit(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        const args = ['init'];
-        if ('input' in inputs)
-            args.push(`-input=${Boolean(inputs.input)}`);
-        if ('lock' in inputs)
-            args.push(`-lock=${Boolean(inputs.lock)}`);
-        if (inputs.lockTimeout)
-            args.push(`-lock-timeout=${+inputs.lockTimeout}`);
-        if (inputs.noColor && Boolean(inputs.noColor) === true)
-            args.push('-no-color');
-        if (inputs.upgrade && Boolean(inputs.upgrade) === true)
-            args.push('-upgrade');
-        if (inputs.dir)
-            args.push(inputs.dir);
+        let args = ['init'];
+        args = utils_1.addValueToArgs('boolean', 'input', inputs.input, args);
+        args = utils_1.addValueToArgs('boolean', 'lock', inputs.lock, args);
+        args = utils_1.addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args);
+        args = utils_1.addValueToArgs('flag', 'no-color', inputs.noColor, args);
+        args = utils_1.addValueToArgs('flag', 'upgrade', inputs.upgrade, args);
+        args = utils_1.addValueToArgs('path', '', inputs.dir, args);
         yield exec.exec('terraform', args, setOptions(inputs));
         return inputs;
     });
@@ -1615,6 +1610,60 @@ function getState(name) {
 }
 exports.getState = getState;
 //# sourceMappingURL=core.js.map
+
+/***/ }),
+
+/***/ 611:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function addFlagToArgs(flagToAdd, value, args) {
+    if (value)
+        args.push(`-${flagToAdd}`);
+    return args;
+}
+function addStringValueToArgs(flagToAdd, value, args) {
+    if (value)
+        args.push(`-${flagToAdd}=${value}`);
+    return args;
+}
+function addNumberValueToArgs(flagToAdd, value, args) {
+    if (value)
+        args.push(`-${flagToAdd}=${+value}`);
+    return args;
+}
+function addBooleanValueToArgs(flagToAdd, value, args) {
+    if (value !== undefined)
+        args.push(`-${flagToAdd}=${Boolean(value)}`);
+    return args;
+}
+function addPathValueToArgs(value, args) {
+    if (value)
+        args.push(`${value}`);
+    else
+        args.push(`.`);
+    return args;
+}
+function addValueToArgs(type, flagToAdd, value, args) {
+    switch (type) {
+        case 'flag':
+            return addFlagToArgs(flagToAdd, value, args);
+        case 'boolean':
+            return addBooleanValueToArgs(flagToAdd, value, args);
+        case 'number':
+            return addNumberValueToArgs(flagToAdd, value, args);
+        case 'string':
+            return addStringValueToArgs(flagToAdd, value, args);
+        case 'path':
+            return addPathValueToArgs(value, args);
+        default:
+            return addStringValueToArgs(flagToAdd, value, args);
+    }
+}
+exports.addValueToArgs = addValueToArgs;
+
 
 /***/ }),
 
