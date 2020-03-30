@@ -25,7 +25,17 @@ jobs:
         uses: "./"
         with:
             command: plan
-            params: '{"dir":  "./tf", "compactWarnings" : true, "detailedExitCode": true, "lock": false}'
+            params: |
+              { 
+                "dir":  "./tf", 
+                "compactWarnings" : true, 
+                "detailedExitCode": true, 
+                "lock": false,
+                "var": {
+                  "github_token": "${{ secrets.access_token }}",
+                  "github_organization": "KhannaAbhinav"
+                }
+              }
         env:
           GITHUB_TOKEN: ${{ secrets.access_token }}
       

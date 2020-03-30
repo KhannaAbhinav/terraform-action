@@ -1,6 +1,5 @@
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
-import * as toolCache from '@actions/tool-cache'
 
 import {ExecOptions} from '@actions/exec/lib/interfaces'
 import {
@@ -123,9 +122,6 @@ async function executeImport(inputs: ImportOptions): Promise<{}> {
   return inputs
 }
 async function executeInit(inputs: InitOptions): Promise<{}> {
-  const allNodeVersions = toolCache.findAllVersions('terraform')
-  core.info(`Versions of node available: ${allNodeVersions}`)
-
   const args = ['init']
 
   if ('input' in inputs) args.push(`-input=${Boolean(inputs.input)}`)
