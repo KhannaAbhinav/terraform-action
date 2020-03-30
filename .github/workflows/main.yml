@@ -17,7 +17,7 @@ jobs:
         uses: "./"
         with:
             command: init
-            params: '{"dir":  "./tf"}'
+            params: '{"cwd":  "./tf"}'
         
       
       - name: Call Terraform Action Plan
@@ -32,7 +32,8 @@ jobs:
                   "github_token": "${{ secrets.access_token }}",
                   "github_organization": "KhannaAbhinav"
                 },
-                "out" : "./tf/tf.plan"
+                "out" : "tf.plan",
+                "cwd" : "./tf"
               }
         env:
           GITHUB_TOKEN: ${{ secrets.access_token }}
@@ -42,6 +43,10 @@ jobs:
         uses: "./"
         with:
             command: apply
-            params: '{"dirOrPlan":  "./tf/tf.plan"}'
+            params:  | 
+              {
+                "dirOrPlan":  "tf.plan",
+                "cwd": "./tf"
+              }
         env:
           GITHUB_TOKEN: ${{ secrets.access_token }}
