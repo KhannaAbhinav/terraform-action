@@ -12,24 +12,29 @@ jobs:
         uses: "./"
         with:
             command: version
-      - name: Call Terraform Action
+      - name: Call Terraform Action Init
         id: tf2
         uses: "./"
         with:
             command: init
             params: '{"dir":  "./tf"}'
+        
       
-      - name: Call Terraform Action
+      - name: Call Terraform Action Plan
         id: tf3
         uses: "./"
         with:
             command: plan
             params: '{"dir":  "./tf", "compactWarnings" : true, "detailedExitCode": true, "lock": false}'
-      - name: 'Terraform Init'
-        uses: hashicorp/terraform-github-actions@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.access_token }}
+      
+      - name: Call Terraform Action Apply
+        id: tf4
+        uses: "./"
         with:
-          tf_actions_version: 0.12.13
-          tf_actions_subcommand: 'init'
-          tf_actions_working_dir: '.'
-          tf_actions_comment: true
-            
+            command: plan
+            params: '{"dir":  "./tf"}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.access_token }}
+           
