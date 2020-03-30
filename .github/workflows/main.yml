@@ -30,11 +30,11 @@ jobs:
                 "dir":  "./tf", 
                 "compactWarnings" : true, 
                 "detailedExitCode": true, 
-                "lock": false,
                 "var": {
                   "github_token": "${{ secrets.access_token }}",
                   "github_organization": "KhannaAbhinav"
-                }
+                },
+                "out" : "tf.plan"
               }
         env:
           GITHUB_TOKEN: ${{ secrets.access_token }}
@@ -43,7 +43,7 @@ jobs:
         id: tf4
         uses: "./"
         with:
-            command: plan
-            params: '{"dir":  "./tf"}'
+            command: apply
+            params: '{"dirOrPlan":  "./tf/tf.plan"}'
         env:
           GITHUB_TOKEN: ${{ secrets.access_token }}
