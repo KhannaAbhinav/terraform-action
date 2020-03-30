@@ -1,5 +1,6 @@
 interface ExecOptions {
   cwd?: string
+  version: string
 }
 
 interface ApplyTerraformOptions {

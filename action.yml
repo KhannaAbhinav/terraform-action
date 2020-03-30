@@ -1,7 +1,11 @@
 name: Execute Terraform commands
 author: Abhinav Khanna
 description: Execute Terraform commands using Terraform CLI
-inputs: 
+inputs:
+  version:
+    description: Terraform Version
+    required: False
+    default: "default"
   command:
     description: Terraform Command to execute
     required: True

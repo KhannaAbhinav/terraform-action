@@ -1,5 +1,7 @@
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
+import * as toolCache from '@actions/tool-cache'
+
 import {ExecOptions} from '@actions/exec/lib/interfaces'
 import {
   ApplyOptions,
@@ -121,10 +123,14 @@ async function executeImport(inputs: ImportOptions): Promise<{}> {
   return inputs
 }
 async function executeInit(inputs: InitOptions): Promise<{}> {
-  const args = ['init']
-  if (inputs.input) args.push(`-input=${Boolean(inputs.input)}`)
+  const allNodeVersions = toolCache.findAllVersions('node')
+  core.info(`Versions of node available: ${allNodeVersions}`)
 
-  if (inputs.lock) args.push(`-lock=${Boolean(inputs.lock)}`)
+  const args = ['init']
+
+  if ('input' in inputs) args.push(`-input=${Boolean(inputs.input)}`)
+
+  if ('lock' in inputs) args.push(`-lock=${Boolean(inputs.lock)}`)
 
   if (inputs.lockTimeout) args.push(`-lock-timeout=${+inputs.lockTimeout}`)
 
@@ -144,21 +150,21 @@ async function executeOutput(inputs: OutputOptions): Promise<{}> {
 async function executePlan(inputs: PlanOptions): Promise<{}> {
   const args = ['plan']
 
-  if ('compactWarnings' in inputs && Boolean(inputs.compactWarnings) === true) args.push('-compact-warnings')
+  if (Boolean(inputs.compactWarnings) === true) args.push('-compact-warnings')
 
-  if (inputs.destroy && Boolean(inputs.destroy) === true) args.push('-destroy')
+  if (Boolean(inputs.destroy) === true) args.push('-destroy')
 
-  if (inputs.detailedExitCode && Boolean(inputs.detailedExitCode) === true) args.push('-detailed-exitcode')
+  if (Boolean(inputs.detailedExitCode) === true) args.push('-detailed-exitcode')
 
-  if (inputs.input) args.push(`-input=${Boolean(inputs.input)}`)
+  if ('input' in inputs) args.push(`-input=${Boolean(inputs.input)}`)
 
   if ('lock' in inputs) args.push(`-lock=${Boolean(inputs.lock)}`)
 
   if (inputs.lockTimeout) args.push(`-lock-timeout=${+inputs.lockTimeout}`)
 
-  if (inputs.noColor && Boolean(inputs.noColor) === true) args.push('-no-color')
+  if (Boolean(inputs.noColor) === true) args.push('-no-color')
 
-  if (inputs.out) args.push(`-out=${inputs.out}`)
+  if ('out' in inputs) args.push(`-out=${inputs.out}`)
 
   if (inputs.parallelism) args.push(`-parallelism=${+inputs.parallelism}`)
 
@@ -183,6 +189,7 @@ async function executePlan(inputs: PlanOptions): Promise<{}> {
 
   return inputs
 }
+
 async function executeProviders(inputs: ProvidersOptions): Promise<{}> {
   core.info('This command is not ready yet. Please check back later.')
   return inputs
