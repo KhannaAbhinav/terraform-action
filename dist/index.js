@@ -994,7 +994,7 @@ function setOptions(inputs) {
 }
 function executeApply(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        const args = ['plan'];
+        const args = ['apply'];
         if (Boolean(inputs.compactWarnings) === true)
             args.push('-compact-warnings');
         if (inputs.backup)
@@ -1110,15 +1110,15 @@ function executePlan(inputs) {
         if (Boolean(inputs.detailedExitCode) === true)
             args.push('-detailed-exitcode');
         if ('input' in inputs)
-            args.push(`-input ${Boolean(inputs.input)}`);
+            args.push(`-input=${Boolean(inputs.input)}`);
         if ('lock' in inputs)
-            args.push(`-lock '${Boolean(inputs.lock)}`);
+            args.push(`-lock='${Boolean(inputs.lock)}`);
         if (inputs.lockTimeout)
             args.push(`-lock-timeout=${+inputs.lockTimeout}`);
         if (Boolean(inputs.noColor) === true)
             args.push('-no-color');
         if ('out' in inputs)
-            args.push(`-out '${inputs.out}'`);
+            args.push(`-out='${inputs.out}'`);
         if (inputs.parallelism)
             args.push(`-parallelism=${+inputs.parallelism}`);
         if (inputs.refresh)
