@@ -154,21 +154,21 @@ async function executePlan(inputs: PlanOptions): Promise<{}> {
 
   if ('input' in inputs) args.push(`-input=${Boolean(inputs.input)}`)
 
-  if ('lock' in inputs) args.push(`-lock=${Boolean(inputs.lock)}`)
+  if ('lock' in inputs) args.push(`-lock='${Boolean(inputs.lock)}`)
 
   if (inputs.lockTimeout) args.push(`-lock-timeout=${+inputs.lockTimeout}`)
 
   if (Boolean(inputs.noColor) === true) args.push('-no-color')
 
-  if ('out' in inputs) args.push(`-out=${inputs.out}`)
+  if ('out' in inputs) args.push(`-out='${inputs.out}'`)
 
   if (inputs.parallelism) args.push(`-parallelism=${+inputs.parallelism}`)
 
   if (inputs.refresh) args.push(`-refresh=${Boolean(inputs.refresh)}`)
 
-  if (inputs.state) args.push(`-state=${inputs.state}`)
+  if (inputs.state) args.push(`-state='${inputs.state}'`)
 
-  if (inputs.target) args.push(`-target=${inputs.target}`)
+  if (inputs.target) args.push(`-target='${inputs.target}'`)
 
   if (inputs.var) {
     const varMap = new Map(Object.entries(inputs.var))
@@ -177,9 +177,9 @@ async function executePlan(inputs: PlanOptions): Promise<{}> {
     }
   }
 
-  if (inputs.varFile) args.push(`-var-file=${inputs.varFile}`)
+  if (inputs.varFile) args.push(`-var-file='${inputs.varFile}'`)
 
-  if (inputs.dir) args.push(inputs.dir)
+  if (inputs.dir) args.push(`'${inputs.dir}'`)
 
   await exec.exec('terraform', args, setOptions(inputs))
 

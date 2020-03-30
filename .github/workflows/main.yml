@@ -27,7 +27,12 @@ jobs:
             command: plan
             params: |
               { 
-                "dir":  "./tf"
+                "dir":  "./tf", 
+                "var": {
+                  "github_token": "${{ secrets.access_token }}",
+                  "github_organization": "KhannaAbhinav"
+                },
+                "out" : "./tf/tf.plan"
               }
         env:
           GITHUB_TOKEN: ${{ secrets.access_token }}
