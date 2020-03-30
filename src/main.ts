@@ -231,7 +231,7 @@ async function main(): Promise<void> {
     }
 
     console.debug(`command :  ${terraformCommand}`)
-    console.debug(`params :  ${terraformInputs}`)
+    console.debug(`params :  ${JSON.stringify(terraformInputs)}`)
 
     let terraformOutput = {}
 

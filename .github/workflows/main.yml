@@ -32,9 +32,7 @@ jobs:
             command: plan
             params: |
               { 
-                "var": {
-                  "github_token": "${{ secrets.access_token }}"
-                },
+                
                 "out" : "tf.plan.json",
                 "cwd" : "./tf"
               }

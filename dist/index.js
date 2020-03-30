@@ -1203,7 +1203,7 @@ function main() {
                 terraformInputs = JSON.parse(core.getInput('params'));
             }
             console.debug(`command :  ${terraformCommand}`);
-            console.debug(`params :  ${terraformInputs}`);
+            console.debug(`params :  ${JSON.stringify(terraformInputs)}`);
             let terraformOutput = {};
             switch (terraformCommand) {
                 case 'apply':
