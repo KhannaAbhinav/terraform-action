@@ -995,19 +995,19 @@ function setOptions(inputs) {
 function executeApply(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
         const args = ['plan'];
-        if (inputs.compactWarnings && Boolean(inputs.compactWarnings) === true)
+        if (Boolean(inputs.compactWarnings) === true)
             args.push('-compact-warnings');
         if (inputs.backup)
             args.push(`-backup=${inputs.backup}`);
-        if (inputs.input)
+        if ('input' in inputs)
             args.push(`-input=${Boolean(inputs.input)}`);
-        if (inputs.lock)
+        if ('lock' in inputs)
             args.push(`-lock=${Boolean(inputs.lock)}`);
         if (inputs.lockTimeout)
             args.push(`-lock-timeout=${+inputs.lockTimeout}`);
-        if (inputs.noColor && Boolean(inputs.noColor) === true)
+        if (Boolean(inputs.noColor) === true)
             args.push('-no-color');
-        if (inputs.autoApprove && Boolean(inputs.autoApprove) === true)
+        if (Boolean(inputs.autoApprove) === true)
             args.push('-auto-approve');
         if (inputs.parallelism)
             args.push(`-parallelism=${+inputs.parallelism}`);
@@ -1022,7 +1022,7 @@ function executeApply(inputs) {
         if (inputs.var) {
             const varMap = new Map(Object.entries(inputs.var));
             for (const key of varMap.keys()) {
-                args.push(`-var ${key}=${varMap.get(key)}`);
+                args.push(`-var '${key}=${varMap.get(key)}'`);
             }
         }
         if (inputs.varFile)
@@ -1130,7 +1130,7 @@ function executePlan(inputs) {
         if (inputs.var) {
             const varMap = new Map(Object.entries(inputs.var));
             for (const key of varMap.keys()) {
-                args.push(`-var ${key}=${varMap.get(key)}`);
+                args.push(`-var '${key}=${varMap.get(key)}'`);
             }
         }
         if (inputs.varFile)
