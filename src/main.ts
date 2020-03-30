@@ -138,31 +138,26 @@ async function executeOutput(inputs: OutputOptions): Promise<{}> {
   return inputs
 }
 async function executePlan(inputs: PlanOptions): Promise<{}> {
-  const args = ['plan']
+  let args = ['plan']
 
-  if (Boolean(inputs.compactWarnings) === true) args.push('-compact-warnings')
+  args = addValueToArgs('path', '', inputs.dir, args)
 
-  if (Boolean(inputs.destroy) === true) args.push('-destroy')
+  args = addValueToArgs('flag', 'compact-warnings', inputs.compactWarnings, args)
+  args = addValueToArgs('flag', 'destroy', inputs.destroy, args)
+  args = addValueToArgs('flag', 'detailed-exitcode', inputs.detailedExitCode, args)
 
-  if (Boolean(inputs.detailedExitCode) === true) args.push('-detailed-exitcode')
+  args = addValueToArgs('boolean', 'input', inputs.input, args)
+  args = addValueToArgs('boolean', 'lock', inputs.lock, args)
+  args = addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args)
+  args = addValueToArgs('flag', 'no-color', inputs.noColor, args)
 
-  if ('input' in inputs) args.push(`-input=${Boolean(inputs.input)}`)
+  args = addValueToArgs('string', 'out', inputs.out, args)
+  args = addValueToArgs('number', 'parallelism', inputs.parallelism, args)
 
-  if ('lock' in inputs) args.push(`-lock='${Boolean(inputs.lock)}`)
+  args = addValueToArgs('boolean', 'refresh', inputs.refresh, args)
 
-  if (inputs.lockTimeout) args.push(`-lock-timeout=${+inputs.lockTimeout}`)
-
-  if (Boolean(inputs.noColor) === true) args.push('-no-color')
-
-  if ('out' in inputs) args.push(`-out='${inputs.out}'`)
-
-  if (inputs.parallelism) args.push(`-parallelism=${+inputs.parallelism}`)
-
-  if (inputs.refresh) args.push(`-refresh=${Boolean(inputs.refresh)}`)
-
-  if (inputs.state) args.push(`-state='${inputs.state}'`)
-
-  if (inputs.target) args.push(`-target='${inputs.target}'`)
+  args = addValueToArgs('string', 'state', inputs.state, args)
+  args = addValueToArgs('string', 'target', inputs.target, args)
 
   if (inputs.var) {
     const varMap = new Map(Object.entries(inputs.var))
@@ -171,9 +166,8 @@ async function executePlan(inputs: PlanOptions): Promise<{}> {
     }
   }
 
-  if (inputs.varFile) args.push(`-var-file='${inputs.varFile}'`)
-
-  if (inputs.dir) args.push(`'${inputs.dir}'`)
+  args = addValueToArgs('string', 'var-file', inputs.varFile, args)
+  args = addValueToArgs('path', '', inputs.dir, args)
 
   await exec.exec('terraform', args, setOptions(inputs))
 
