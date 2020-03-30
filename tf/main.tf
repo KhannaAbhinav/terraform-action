@@ -4,6 +4,7 @@ variable "github_token" {
 
 variable "github_organization" {
   type=string
+  default= "KhannaAbhinav"
 }
 
 provider "github" {

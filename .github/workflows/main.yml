@@ -33,8 +33,7 @@ jobs:
             params: |
               { 
                 "var": {
-                  "github_token": "${{ secrets.access_token }}",
-                  "github_organization": "KhannaAbhinav"
+                  "github_token": "${{ secrets.access_token }}"
                 },
                 "out" : "tf.plan.json",
                 "cwd" : "./tf"
