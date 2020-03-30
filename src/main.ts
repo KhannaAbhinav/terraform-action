@@ -140,8 +140,6 @@ async function executeOutput(inputs: OutputOptions): Promise<{}> {
 async function executePlan(inputs: PlanOptions): Promise<{}> {
   let args = ['plan']
 
-  args = addValueToArgs('path', '', inputs.dir, args)
-
   args = addValueToArgs('flag', 'compact-warnings', inputs.compactWarnings, args)
   args = addValueToArgs('flag', 'destroy', inputs.destroy, args)
   args = addValueToArgs('flag', 'detailed-exitcode', inputs.detailedExitCode, args)

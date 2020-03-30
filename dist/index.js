@@ -1098,7 +1098,6 @@ function executeOutput(inputs) {
 function executePlan(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
         let args = ['plan'];
-        args = utils_1.addValueToArgs('path', '', inputs.dir, args);
         args = utils_1.addValueToArgs('flag', 'compact-warnings', inputs.compactWarnings, args);
         args = utils_1.addValueToArgs('flag', 'destroy', inputs.destroy, args);
         args = utils_1.addValueToArgs('flag', 'detailed-exitcode', inputs.detailedExitCode, args);
@@ -1613,7 +1612,7 @@ function addFlagToArgs(flagToAdd, value, args) {
 }
 function addStringValueToArgs(flagToAdd, value, args) {
     if (value)
-        args.push(`-${flagToAdd}=${value}`);
+        args.push(`-${flagToAdd}="${value}"`);
     return args;
 }
 function addNumberValueToArgs(flagToAdd, value, args) {
@@ -1628,7 +1627,7 @@ function addBooleanValueToArgs(flagToAdd, value, args) {
 }
 function addPathValueToArgs(value, args) {
     if (value)
-        args.push(`${value}`);
+        args.push(`"${value}"`);
     else
         args.push(`.`);
     return args;
