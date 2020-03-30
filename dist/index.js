@@ -1103,7 +1103,7 @@ function executeOutput(inputs) {
 function executePlan(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
         const args = ['plan'];
-        if (inputs.compactWarnings && Boolean(inputs.compactWarnings) === true)
+        if ('compactWarnings' in inputs && Boolean(inputs.compactWarnings) === true)
             args.push('-compact-warnings');
         if (inputs.destroy && Boolean(inputs.destroy) === true)
             args.push('-destroy');
@@ -1111,7 +1111,7 @@ function executePlan(inputs) {
             args.push('-detailed-exitcode');
         if (inputs.input)
             args.push(`-input=${Boolean(inputs.input)}`);
-        if (inputs.lock)
+        if ('lock' in inputs)
             args.push(`-lock=${Boolean(inputs.lock)}`);
         if (inputs.lockTimeout)
             args.push(`-lock-timeout=${+inputs.lockTimeout}`);

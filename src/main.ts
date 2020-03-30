@@ -144,7 +144,7 @@ async function executeOutput(inputs: OutputOptions): Promise<{}> {
 async function executePlan(inputs: PlanOptions): Promise<{}> {
   const args = ['plan']
 
-  if (inputs.compactWarnings && Boolean(inputs.compactWarnings) === true) args.push('-compact-warnings')
+  if ('compactWarnings' in inputs && Boolean(inputs.compactWarnings) === true) args.push('-compact-warnings')
 
   if (inputs.destroy && Boolean(inputs.destroy) === true) args.push('-destroy')
 
@@ -152,7 +152,7 @@ async function executePlan(inputs: PlanOptions): Promise<{}> {
 
   if (inputs.input) args.push(`-input=${Boolean(inputs.input)}`)
 
-  if (inputs.lock) args.push(`-lock=${Boolean(inputs.lock)}`)
+  if ('lock' in inputs) args.push(`-lock=${Boolean(inputs.lock)}`)
 
   if (inputs.lockTimeout) args.push(`-lock-timeout=${+inputs.lockTimeout}`)
 
