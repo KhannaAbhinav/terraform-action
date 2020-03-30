@@ -123,7 +123,7 @@ async function executeImport(inputs: ImportOptions): Promise<{}> {
   return inputs
 }
 async function executeInit(inputs: InitOptions): Promise<{}> {
-  const allNodeVersions = toolCache.findAllVersions('node')
+  const allNodeVersions = toolCache.findAllVersions('terraform')
   core.info(`Versions of node available: ${allNodeVersions}`)
 
   const args = ['init']
