@@ -160,7 +160,7 @@ async function executePlan(inputs: PlanOptions): Promise<{}> {
   if (inputs.var) {
     const varMap = new Map(Object.entries(inputs.var))
     for (const key of varMap.keys()) {
-      args.push(`-var '${key}=${varMap.get(key)}'`)
+      args.push(`-var "${key}=${varMap.get(key)}"`)
     }
   }
 
