@@ -3,7 +3,7 @@ on: push
 jobs:
   build:
     name: Execute Terraform Commands
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Files
         uses: actions/checkout@v1
