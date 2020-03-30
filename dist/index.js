@@ -1113,7 +1113,8 @@ function executePlan(inputs) {
         if (inputs.var) {
             const varMap = new Map(Object.entries(inputs.var));
             for (const key of varMap.keys()) {
-                args.push(`-var "${key}=${varMap.get(key)}"`);
+                args.push(`-var`);
+                args.push(`'${key}=${varMap.get(key)}'`);
             }
         }
         args = utils_1.addValueToArgs('string', 'var-file', inputs.varFile, args);
@@ -1612,7 +1613,7 @@ function addFlagToArgs(flagToAdd, value, args) {
 }
 function addStringValueToArgs(flagToAdd, value, args) {
     if (value)
-        args.push(`-${flagToAdd}="${value}"`);
+        args.push(`-${flagToAdd}='${value}'`);
     return args;
 }
 function addNumberValueToArgs(flagToAdd, value, args) {
@@ -1627,7 +1628,7 @@ function addBooleanValueToArgs(flagToAdd, value, args) {
 }
 function addPathValueToArgs(value, args) {
     if (value)
-        args.push(`"${value}"`);
+        args.push(`'${value}'`);
     else
         args.push(`.`);
     return args;

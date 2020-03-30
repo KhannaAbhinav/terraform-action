@@ -4,7 +4,7 @@ function addFlagToArgs(flagToAdd: string, value: string | undefined, args: strin
 }
 
 function addStringValueToArgs(flagToAdd: string, value: string | undefined, args: string[]): string[] {
-  if (value) args.push(`-${flagToAdd}="${value}"`)
+  if (value) args.push(`-${flagToAdd}='${value}'`)
   return args
 }
 function addNumberValueToArgs(flagToAdd: string, value: string | undefined, args: string[]): string[] {
@@ -18,7 +18,7 @@ function addBooleanValueToArgs(flagToAdd: string, value: string | undefined, arg
 }
 
 function addPathValueToArgs(value: string | undefined, args: string[]): string[] {
-  if (value) args.push(`"${value}"`)
+  if (value) args.push(`'${value}'`)
   else args.push(`.`)
   return args
 }
