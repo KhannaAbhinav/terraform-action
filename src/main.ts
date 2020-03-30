@@ -152,15 +152,15 @@ async function executePlan(inputs: PlanOptions): Promise<{}> {
 
   if (Boolean(inputs.detailedExitCode) === true) args.push('-detailed-exitcode')
 
-  if ('input' in inputs) args.push(`-input=${Boolean(inputs.input)}`)
+  if ('input' in inputs) args.push(`-input ${Boolean(inputs.input)}`)
 
-  if ('lock' in inputs) args.push(`-lock='${Boolean(inputs.lock)}`)
+  if ('lock' in inputs) args.push(`-lock '${Boolean(inputs.lock)}`)
 
   if (inputs.lockTimeout) args.push(`-lock-timeout=${+inputs.lockTimeout}`)
 
   if (Boolean(inputs.noColor) === true) args.push('-no-color')
 
-  if ('out' in inputs) args.push(`-out='${inputs.out}'`)
+  if ('out' in inputs) args.push(`-out '${inputs.out}'`)
 
   if (inputs.parallelism) args.push(`-parallelism=${+inputs.parallelism}`)
 
