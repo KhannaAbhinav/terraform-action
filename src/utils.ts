@@ -59,7 +59,7 @@ export async function uploadFile(
   uploadOptions: artifact.UploadOptions
 ): Promise<void> {
   if (upload) {
-    if (artifactName) {
+    if (!artifactName) {
       core.error('Artifact name is required')
       return
     }
@@ -72,7 +72,7 @@ export async function uploadFile(
     if (file) {
       const files = []
       files.push(file)
-      const uploadResult = await artifactClient.uploadArtifact(artifactName as string, files, rootDir, uploadOptions)
+      const uploadResult = await artifactClient.uploadArtifact(artifactName, files, rootDir, uploadOptions)
       core.setOutput('uploadResult', `${uploadResult}`)
     } else {
       core.setFailed('Output file is required when upload is true')
@@ -103,7 +103,7 @@ export async function uploadDataAsFile(
     const randomFolder = uuid.v4()
     io.mkdirP(randomFolder)
     if (data) {
-      const filePath = `./${randomFolder}/fileName`
+      const filePath = `./${randomFolder}/${fileName}`
       fs.appendFileSync(filePath, data)
       const files = []
       files.push(filePath)

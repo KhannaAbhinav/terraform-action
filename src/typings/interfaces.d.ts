@@ -6,7 +6,7 @@ interface ExecOptions {
 interface Artifact {
   artifactName?: string
   upload?: boolean
-  filename?: string
+  fileName?: string
 }
 
 interface UploadOptions {

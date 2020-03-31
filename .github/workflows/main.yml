@@ -49,7 +49,7 @@ jobs:
       
 
       - name: Call Terraform Action Show
-        id: tfShow
+        id: tfShow1
         uses: "./"
         with:
             command: show
@@ -64,6 +64,22 @@ jobs:
                 "fileName": "planfile.json"
               }
       
+      - name: Call Terraform Action Show
+        id: tfShow2
+        uses: "./"
+        with:
+            command: show
+            params: |
+              { 
+               
+                "path" : "tf.plan",
+                "json": true,
+                "cwd" : "./tf",
+                "upload": true,
+                "artifactName": "planFileJson",
+                "continueOnError": false,
+                "fileName": "planfile.json"
+              }
       - name: Call Terraform Action Apply
         id: tfApply
         uses: "./"

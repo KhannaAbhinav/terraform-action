@@ -3655,7 +3655,7 @@ function executeShow(inputs) {
         args = utils_1.addValueToArgs('flag', 'json', inputs.json, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.path, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        yield utils_1.uploadDataAsFile(inputs.upload, stdOutput, inputs.filename, inputs.artifactName, setUploadOptions(inputs));
+        yield utils_1.uploadDataAsFile(inputs.upload, stdOutput, inputs.fileName, inputs.artifactName, setUploadOptions(inputs));
     });
 }
 function executeTaint(inputs) {
@@ -7846,7 +7846,7 @@ exports.addValueToArgs = addValueToArgs;
 function uploadFile(upload, file, rootDir, artifactName, uploadOptions) {
     return __awaiter(this, void 0, void 0, function* () {
         if (upload) {
-            if (artifactName) {
+            if (!artifactName) {
                 core.error('Artifact name is required');
                 return;
             }
@@ -7886,7 +7886,7 @@ function uploadDataAsFile(upload, data, fileName, artifactName, uploadOptions) {
             const randomFolder = uuid.v4();
             io.mkdirP(randomFolder);
             if (data) {
-                const filePath = `./${randomFolder}/fileName`;
+                const filePath = `./${randomFolder}/${fileName}`;
                 fs.appendFileSync(filePath, data);
                 const files = [];
                 files.push(filePath);

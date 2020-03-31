@@ -284,7 +284,7 @@ async function executeShow(inputs: ShowOptions): Promise<void> {
   args = addValueToArgs('flag', 'json', inputs.json, args)
   args = addValueToArgs('noflag', '', inputs.path, args)
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  await uploadDataAsFile(inputs.upload, stdOutput, inputs.filename, inputs.artifactName, setUploadOptions(inputs))
+  await uploadDataAsFile(inputs.upload, stdOutput, inputs.fileName, inputs.artifactName, setUploadOptions(inputs))
 }
 async function executeTaint(inputs: TaintOptions): Promise<void> {
   let args = ['taint']
