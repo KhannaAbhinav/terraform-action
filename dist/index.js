@@ -1017,49 +1017,101 @@ function executeApply(inputs) {
         }
         args = utils_1.addValueToArgs('string', 'var-file', inputs.varFile, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.dirOrPlan, args);
-        yield exec.exec('terraform', args, setOptions(inputs));
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeConsole(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['console'];
+        args = utils_1.addValueToArgs('string', 'state', inputs.state, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeDestroy(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
-        return inputs;
-    });
-}
-function executeEnv(inputs) {
-    return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is deprecated. Please use workspace command');
+        let args = ['destroy'];
+        args = utils_1.addValueToArgs('flag', 'compact-warnings', inputs.compactWarnings, args);
+        args = utils_1.addValueToArgs('string', 'backup', inputs.backup, args);
+        args = utils_1.addValueToArgs('boolean', 'input', inputs.input, args);
+        args = utils_1.addValueToArgs('boolean', 'lock', inputs.lock, args);
+        args = utils_1.addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args);
+        args = utils_1.addValueToArgs('flag', 'no-color', inputs.noColor, args);
+        args = utils_1.addValueToArgs('flag', 'auto-approve', inputs.autoApprove, args);
+        args = utils_1.addValueToArgs('number', 'parallelism', inputs.parallelism, args);
+        args = utils_1.addValueToArgs('boolean', 'refresh', inputs.refresh, args);
+        args = utils_1.addValueToArgs('string', 'state', inputs.state, args);
+        args = utils_1.addValueToArgs('string', 'state-out', inputs.stateOut, args);
+        args = utils_1.addValueToArgs('string', 'target', inputs.target, args);
+        if (inputs.var) {
+            const varMap = new Map(Object.entries(inputs.var));
+            for (const key of varMap.keys()) {
+                args = utils_1.addValueToArgs('flag', 'var', 'true', args);
+                args = utils_1.addValueToArgs('noflag', '', `${key}=${varMap.get(key)}`, args);
+            }
+        }
+        args = utils_1.addValueToArgs('string', 'var-file', inputs.varFile, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeFmt(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['fmt'];
+        args = utils_1.addValueToArgs('boolean', 'list', inputs.list, args);
+        args = utils_1.addValueToArgs('boolean', 'write', inputs.write, args);
+        args = utils_1.addValueToArgs('flag', 'diff', inputs.diff, args);
+        args = utils_1.addValueToArgs('flag', 'check', inputs.check, args);
+        args = utils_1.addValueToArgs('flag', 'recursive', inputs.recursive, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeGet(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['get'];
+        args = utils_1.addValueToArgs('flag', 'update', inputs.update, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeGraph(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['graph'];
+        args = utils_1.addValueToArgs('flag', 'draw-cycles', inputs.drawCycles, args);
+        args = utils_1.addValueToArgs('string', 'type', inputs.type, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeImport(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['import'];
+        args = utils_1.addValueToArgs('string', 'backup', inputs.backup, args);
+        args = utils_1.addValueToArgs('string', 'config', inputs.config, args);
+        args = utils_1.addValueToArgs('boolean', 'input', inputs.input, args);
+        args = utils_1.addValueToArgs('boolean', 'lock', inputs.lock, args);
+        args = utils_1.addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args);
+        args = utils_1.addValueToArgs('flag', 'no-color', inputs.noColor, args);
+        args = utils_1.addValueToArgs('number', 'parallelism', inputs.parallelism, args);
+        args = utils_1.addValueToArgs('string', 'state', inputs.state, args);
+        args = utils_1.addValueToArgs('string', 'state-out', inputs.stateOut, args);
+        if (inputs.var) {
+            const varMap = new Map(Object.entries(inputs.var));
+            for (const key of varMap.keys()) {
+                args = utils_1.addValueToArgs('flag', 'var', 'true', args);
+                args = utils_1.addValueToArgs('noflag', '', `${key}=${varMap.get(key)}`, args);
+            }
+        }
+        args = utils_1.addValueToArgs('string', 'var-file', inputs.varFile, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.addressId, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
@@ -1072,13 +1124,18 @@ function executeInit(inputs) {
         args = utils_1.addValueToArgs('flag', 'no-color', inputs.noColor, args);
         args = utils_1.addValueToArgs('flag', 'upgrade', inputs.upgrade, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
-        yield exec.exec('terraform', args, setOptions(inputs));
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeOutput(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['output'];
+        args = utils_1.addValueToArgs('flag', 'no-color', inputs.noColor, args);
+        args = utils_1.addValueToArgs('flag', 'json', inputs.json, args);
+        args = utils_1.addValueToArgs('string', 'state', inputs.state, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.name, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
@@ -1106,79 +1163,178 @@ function executePlan(inputs) {
         }
         args = utils_1.addValueToArgs('string', 'var-file', inputs.varFile, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
-        yield exec.exec('terraform', args, setOptions(inputs));
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeProviders(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['providers'];
+        args = utils_1.addValueToArgs('noflag', '', inputs.configPath, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeRefresh(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['refresh'];
+        args = utils_1.addValueToArgs('string', 'backup', inputs.backup, args);
+        args = utils_1.addValueToArgs('flag', 'compact-warnings', inputs.compactWarnings, args);
+        args = utils_1.addValueToArgs('boolean', 'input', inputs.input, args);
+        args = utils_1.addValueToArgs('boolean', 'lock', inputs.lock, args);
+        args = utils_1.addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args);
+        args = utils_1.addValueToArgs('flag', 'no-color', inputs.noColor, args);
+        args = utils_1.addValueToArgs('number', 'parallelism', inputs.parallelism, args);
+        args = utils_1.addValueToArgs('string', 'state', inputs.state, args);
+        args = utils_1.addValueToArgs('string', 'state-out', inputs.stateOut, args);
+        args = utils_1.addValueToArgs('string', 'target', inputs.target, args);
+        if (inputs.var) {
+            const varMap = new Map(Object.entries(inputs.var));
+            for (const key of varMap.keys()) {
+                args = utils_1.addValueToArgs('flag', 'var', 'true', args);
+                args = utils_1.addValueToArgs('noflag', '', `${key}=${varMap.get(key)}`, args);
+            }
+        }
+        args = utils_1.addValueToArgs('string', 'var-file', inputs.varFile, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeShow(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['show'];
+        args = utils_1.addValueToArgs('flag', 'no-color', inputs.noColor, args);
+        args = utils_1.addValueToArgs('flag', 'json', inputs.json, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.path, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeTaint(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['taint'];
+        args = utils_1.addValueToArgs('flag', 'allow-missing', inputs.allowMissing, args);
+        args = utils_1.addValueToArgs('string', 'backup', inputs.backup, args);
+        args = utils_1.addValueToArgs('boolean', 'lock', inputs.lock, args);
+        args = utils_1.addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args);
+        args = utils_1.addValueToArgs('string', 'state', inputs.state, args);
+        args = utils_1.addValueToArgs('string', 'state-out', inputs.stateOut, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.address, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeUntaint(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['untaint'];
+        args = utils_1.addValueToArgs('flag', 'allow-missing', inputs.allowMissing, args);
+        args = utils_1.addValueToArgs('string', 'backup', inputs.backup, args);
+        args = utils_1.addValueToArgs('boolean', 'lock', inputs.lock, args);
+        args = utils_1.addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args);
+        args = utils_1.addValueToArgs('string', 'module', inputs.module, args);
+        args = utils_1.addValueToArgs('flag', 'no-color', inputs.noColor, args);
+        args = utils_1.addValueToArgs('string', 'state', inputs.state, args);
+        args = utils_1.addValueToArgs('string', 'state-out', inputs.stateOut, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.name, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeValidate(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['validate'];
+        args = utils_1.addValueToArgs('flag', 'no-color', inputs.noColor, args);
+        args = utils_1.addValueToArgs('flag', 'json', inputs.json, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeVersion(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield exec.exec('terraform', ['-version'], setOptions(inputs));
+        yield exec.exec(TERRAFORM_VERSION, ['-version'], setOptions(inputs));
         return inputs;
     });
 }
 function executeWorkspace(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['workspace'];
+        args = utils_1.addValueToArgs('noflag', '', inputs.subcommand, args);
+        if (inputs.subcommand === 'select') {
+            args = utils_1.addValueToArgs('noflag', '', inputs.name, args);
+        }
+        if (inputs.subcommand === 'new') {
+            args = utils_1.addValueToArgs('flag', 'state', inputs.state, args);
+            args = utils_1.addValueToArgs('noflag', '', inputs.name, args);
+        }
+        if (inputs.subcommand === 'delete') {
+            args = utils_1.addValueToArgs('flag', 'force', inputs.force, args);
+            args = utils_1.addValueToArgs('noflag', '', inputs.name, args);
+        }
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function execute012Upgrade(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['0.12upgrade'];
+        args = utils_1.addValueToArgs('flag', 'yes', inputs.yes, args);
+        args = utils_1.addValueToArgs('flag', 'force', inputs.force, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeDebug(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['debug'];
+        args = utils_1.addValueToArgs('noflag', '', inputs.subcommand, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.json, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeForceUnlock(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['force-unlock'];
+        args = utils_1.addValueToArgs('flag', 'force', inputs.force, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.lockId, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
 function executeState(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('This command is not ready yet. Please check back later.');
+        let args = ['state'];
+        args = utils_1.addValueToArgs('noflag', '', inputs.subcommand, args);
+        if (inputs.subcommand === 'list') {
+            args = utils_1.addValueToArgs('string', 'state', inputs.state, args);
+            args = utils_1.addValueToArgs('string', 'id', inputs.id, args);
+            args = utils_1.addValueToArgs('noflag', '', inputs.addresses, args);
+        }
+        if (inputs.subcommand === 'mv') {
+            args = utils_1.addValueToArgs('string', 'backup', inputs.backup, args);
+            args = utils_1.addValueToArgs('string', 'backup-out', inputs.backupOut, args);
+            args = utils_1.addValueToArgs('string', 'state', inputs.state, args);
+            args = utils_1.addValueToArgs('string', 'state-out', inputs.stateOut, args);
+            args = utils_1.addValueToArgs('noflag', '', inputs.source, args);
+            args = utils_1.addValueToArgs('noflag', '', inputs.destination, args);
+        }
+        if (inputs.subcommand === 'push') {
+            args = utils_1.addValueToArgs('flag', 'force', inputs.force, args);
+            args = utils_1.addValueToArgs('noflag', '', inputs.path, args);
+        }
+        if (inputs.subcommand === 'rm') {
+            args = utils_1.addValueToArgs('string', 'backup', inputs.backup, args);
+            args = utils_1.addValueToArgs('string', 'state', inputs.state, args);
+        }
+        if (inputs.subcommand === 'show') {
+            args = utils_1.addValueToArgs('string', 'state', inputs.state, args);
+            args = utils_1.addValueToArgs('noflag', '', inputs.address, args);
+        }
+        yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
         return inputs;
     });
 }
@@ -1202,9 +1358,6 @@ function main() {
                     break;
                 case 'destroy':
                     terraformOutput = executeDestroy(terraformInputs);
-                    break;
-                case 'env':
-                    terraformOutput = executeEnv(terraformInputs);
                     break;
                 case 'fmt':
                     terraformOutput = executeFmt(terraformInputs);
@@ -1274,6 +1427,7 @@ function main() {
         }
     });
 }
+const TERRAFORM_VERSION = 'terraform';
 main();
 
 

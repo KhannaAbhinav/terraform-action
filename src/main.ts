@@ -7,7 +7,6 @@ import {
   ConsoleOptions,
   DebugOptions,
   DestroyOptions,
-  EnvOptions,
   FmtOptions,
   ForceUnlockOptions,
   GetOptions,
@@ -79,36 +78,112 @@ async function executeApply(inputs: ApplyOptions): Promise<{}> {
   args = addValueToArgs('string', 'var-file', inputs.varFile, args)
   args = addValueToArgs('noflag', '', inputs.dirOrPlan, args)
 
-  await exec.exec('terraform', args, setOptions(inputs))
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
 
 async function executeConsole(inputs: ConsoleOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['console']
+
+  args = addValueToArgs('string', 'state', inputs.state, args)
+  args = addValueToArgs('noflag', '', inputs.dir, args)
+
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
 async function executeDestroy(inputs: DestroyOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['destroy']
+
+  args = addValueToArgs('flag', 'compact-warnings', inputs.compactWarnings, args)
+  args = addValueToArgs('string', 'backup', inputs.backup, args)
+  args = addValueToArgs('boolean', 'input', inputs.input, args)
+  args = addValueToArgs('boolean', 'lock', inputs.lock, args)
+  args = addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args)
+  args = addValueToArgs('flag', 'no-color', inputs.noColor, args)
+  args = addValueToArgs('flag', 'auto-approve', inputs.autoApprove, args)
+  args = addValueToArgs('number', 'parallelism', inputs.parallelism, args)
+  args = addValueToArgs('boolean', 'refresh', inputs.refresh, args)
+  args = addValueToArgs('string', 'state', inputs.state, args)
+  args = addValueToArgs('string', 'state-out', inputs.stateOut, args)
+  args = addValueToArgs('string', 'target', inputs.target, args)
+
+  if (inputs.var) {
+    const varMap = new Map(Object.entries(inputs.var))
+    for (const key of varMap.keys()) {
+      args = addValueToArgs('flag', 'var', 'true', args)
+      args = addValueToArgs('noflag', '', `${key}=${varMap.get(key)}`, args)
+    }
+  }
+
+  args = addValueToArgs('string', 'var-file', inputs.varFile, args)
+  args = addValueToArgs('noflag', '', inputs.dir, args)
+
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
-async function executeEnv(inputs: EnvOptions): Promise<{}> {
-  core.info('This command is deprecated. Please use workspace command')
-  return inputs
-}
+
 async function executeFmt(inputs: FmtOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['fmt']
+  args = addValueToArgs('boolean', 'list', inputs.list, args)
+  args = addValueToArgs('boolean', 'write', inputs.write, args)
+
+  args = addValueToArgs('flag', 'diff', inputs.diff, args)
+  args = addValueToArgs('flag', 'check', inputs.check, args)
+  args = addValueToArgs('flag', 'recursive', inputs.recursive, args)
+
+  args = addValueToArgs('noflag', '', inputs.dir, args)
+
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
 async function executeGet(inputs: GetOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['get']
+
+  args = addValueToArgs('flag', 'update', inputs.update, args)
+  args = addValueToArgs('noflag', '', inputs.dir, args)
+
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
+
 async function executeGraph(inputs: GraphOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['graph']
+
+  args = addValueToArgs('flag', 'draw-cycles', inputs.drawCycles, args)
+  args = addValueToArgs('string', 'type', inputs.type, args)
+  args = addValueToArgs('noflag', '', inputs.dir, args)
+
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
+
   return inputs
 }
 async function executeImport(inputs: ImportOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['import']
+
+  args = addValueToArgs('string', 'backup', inputs.backup, args)
+  args = addValueToArgs('string', 'config', inputs.config, args)
+  args = addValueToArgs('boolean', 'input', inputs.input, args)
+  args = addValueToArgs('boolean', 'lock', inputs.lock, args)
+  args = addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args)
+  args = addValueToArgs('flag', 'no-color', inputs.noColor, args)
+
+  args = addValueToArgs('number', 'parallelism', inputs.parallelism, args)
+
+  args = addValueToArgs('string', 'state', inputs.state, args)
+  args = addValueToArgs('string', 'state-out', inputs.stateOut, args)
+
+  if (inputs.var) {
+    const varMap = new Map(Object.entries(inputs.var))
+    for (const key of varMap.keys()) {
+      args = addValueToArgs('flag', 'var', 'true', args)
+      args = addValueToArgs('noflag', '', `${key}=${varMap.get(key)}`, args)
+    }
+  }
+
+  args = addValueToArgs('string', 'var-file', inputs.varFile, args)
+  args = addValueToArgs('noflag', '', inputs.addressId, args)
+
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
 async function executeInit(inputs: InitOptions): Promise<{}> {
@@ -119,12 +194,18 @@ async function executeInit(inputs: InitOptions): Promise<{}> {
   args = addValueToArgs('flag', 'no-color', inputs.noColor, args)
   args = addValueToArgs('flag', 'upgrade', inputs.upgrade, args)
   args = addValueToArgs('noflag', '', inputs.dir, args)
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
 
-  await exec.exec('terraform', args, setOptions(inputs))
   return inputs
 }
 async function executeOutput(inputs: OutputOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['output']
+
+  args = addValueToArgs('flag', 'no-color', inputs.noColor, args)
+  args = addValueToArgs('flag', 'json', inputs.json, args)
+  args = addValueToArgs('string', 'state', inputs.state, args)
+  args = addValueToArgs('noflag', '', inputs.name, args)
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
 async function executePlan(inputs: PlanOptions): Promise<{}> {
@@ -158,57 +239,190 @@ async function executePlan(inputs: PlanOptions): Promise<{}> {
   args = addValueToArgs('string', 'var-file', inputs.varFile, args)
   args = addValueToArgs('noflag', '', inputs.dir, args)
 
-  await exec.exec('terraform', args, setOptions(inputs))
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
 
   return inputs
 }
 
 async function executeProviders(inputs: ProvidersOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['providers']
+
+  args = addValueToArgs('noflag', '', inputs.configPath, args)
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
 async function executeRefresh(inputs: RefreshOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['refresh']
+
+  args = addValueToArgs('string', 'backup', inputs.backup, args)
+  args = addValueToArgs('flag', 'compact-warnings', inputs.compactWarnings, args)
+
+  args = addValueToArgs('boolean', 'input', inputs.input, args)
+  args = addValueToArgs('boolean', 'lock', inputs.lock, args)
+  args = addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args)
+  args = addValueToArgs('flag', 'no-color', inputs.noColor, args)
+
+  args = addValueToArgs('number', 'parallelism', inputs.parallelism, args)
+
+  args = addValueToArgs('string', 'state', inputs.state, args)
+  args = addValueToArgs('string', 'state-out', inputs.stateOut, args)
+  args = addValueToArgs('string', 'target', inputs.target, args)
+
+  if (inputs.var) {
+    const varMap = new Map(Object.entries(inputs.var))
+    for (const key of varMap.keys()) {
+      args = addValueToArgs('flag', 'var', 'true', args)
+      args = addValueToArgs('noflag', '', `${key}=${varMap.get(key)}`, args)
+    }
+  }
+
+  args = addValueToArgs('string', 'var-file', inputs.varFile, args)
+  args = addValueToArgs('noflag', '', inputs.dir, args)
+
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
 async function executeShow(inputs: ShowOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['show']
+
+  args = addValueToArgs('flag', 'no-color', inputs.noColor, args)
+  args = addValueToArgs('flag', 'json', inputs.json, args)
+  args = addValueToArgs('noflag', '', inputs.path, args)
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
 async function executeTaint(inputs: TaintOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['taint']
+
+  args = addValueToArgs('flag', 'allow-missing', inputs.allowMissing, args)
+  args = addValueToArgs('string', 'backup', inputs.backup, args)
+  args = addValueToArgs('boolean', 'lock', inputs.lock, args)
+  args = addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args)
+
+  args = addValueToArgs('string', 'state', inputs.state, args)
+  args = addValueToArgs('string', 'state-out', inputs.stateOut, args)
+
+  args = addValueToArgs('noflag', '', inputs.address, args)
+
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
 async function executeUntaint(inputs: UntaintOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['untaint']
+
+  args = addValueToArgs('flag', 'allow-missing', inputs.allowMissing, args)
+  args = addValueToArgs('string', 'backup', inputs.backup, args)
+  args = addValueToArgs('boolean', 'lock', inputs.lock, args)
+  args = addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args)
+
+  args = addValueToArgs('string', 'module', inputs.module, args)
+  args = addValueToArgs('flag', 'no-color', inputs.noColor, args)
+  args = addValueToArgs('string', 'state', inputs.state, args)
+  args = addValueToArgs('string', 'state-out', inputs.stateOut, args)
+
+  args = addValueToArgs('noflag', '', inputs.name, args)
+
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
 async function executeValidate(inputs: ValidateOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['validate']
+  args = addValueToArgs('flag', 'no-color', inputs.noColor, args)
+  args = addValueToArgs('flag', 'json', inputs.json, args)
+  args = addValueToArgs('noflag', '', inputs.dir, args)
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
 async function executeVersion(inputs: VersionOptions): Promise<{}> {
-  await exec.exec('terraform', ['-version'], setOptions(inputs))
+  await exec.exec(TERRAFORM_VERSION, ['-version'], setOptions(inputs))
   return inputs
 }
 async function executeWorkspace(inputs: WorkspaceOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['workspace']
+
+  args = addValueToArgs('noflag', '', inputs.subcommand, args)
+
+  if (inputs.subcommand === 'select') {
+    args = addValueToArgs('noflag', '', inputs.name, args)
+  }
+
+  if (inputs.subcommand === 'new') {
+    args = addValueToArgs('flag', 'state', inputs.state, args)
+    args = addValueToArgs('noflag', '', inputs.name, args)
+  }
+
+  if (inputs.subcommand === 'delete') {
+    args = addValueToArgs('flag', 'force', inputs.force, args)
+    args = addValueToArgs('noflag', '', inputs.name, args)
+  }
+
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
 async function execute012Upgrade(inputs: Upgrade012Options): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['0.12upgrade']
+  args = addValueToArgs('flag', 'yes', inputs.yes, args)
+  args = addValueToArgs('flag', 'force', inputs.force, args)
+  args = addValueToArgs('noflag', '', inputs.dir, args)
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
 async function executeDebug(inputs: DebugOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['debug']
+
+  args = addValueToArgs('noflag', '', inputs.subcommand, args)
+  args = addValueToArgs('noflag', '', inputs.json, args)
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
+
   return inputs
 }
 async function executeForceUnlock(inputs: ForceUnlockOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['force-unlock']
+
+  args = addValueToArgs('flag', 'force', inputs.force, args)
+  args = addValueToArgs('noflag', '', inputs.lockId, args)
+  args = addValueToArgs('noflag', '', inputs.dir, args)
+
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
+
   return inputs
 }
 async function executeState(inputs: StateOptions): Promise<{}> {
-  core.info('This command is not ready yet. Please check back later.')
+  let args = ['state']
+
+  args = addValueToArgs('noflag', '', inputs.subcommand, args)
+
+  if (inputs.subcommand === 'list') {
+    args = addValueToArgs('string', 'state', inputs.state, args)
+    args = addValueToArgs('string', 'id', inputs.id, args)
+    args = addValueToArgs('noflag', '', inputs.addresses, args)
+  }
+
+  if (inputs.subcommand === 'mv') {
+    args = addValueToArgs('string', 'backup', inputs.backup, args)
+    args = addValueToArgs('string', 'backup-out', inputs.backupOut, args)
+    args = addValueToArgs('string', 'state', inputs.state, args)
+    args = addValueToArgs('string', 'state-out', inputs.stateOut, args)
+    args = addValueToArgs('noflag', '', inputs.source, args)
+    args = addValueToArgs('noflag', '', inputs.destination, args)
+  }
+
+  if (inputs.subcommand === 'push') {
+    args = addValueToArgs('flag', 'force', inputs.force, args)
+    args = addValueToArgs('noflag', '', inputs.path, args)
+  }
+
+  if (inputs.subcommand === 'rm') {
+    args = addValueToArgs('string', 'backup', inputs.backup, args)
+    args = addValueToArgs('string', 'state', inputs.state, args)
+  }
+
+  if (inputs.subcommand === 'show') {
+    args = addValueToArgs('string', 'state', inputs.state, args)
+    args = addValueToArgs('noflag', '', inputs.address, args)
+  }
+
+  await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
   return inputs
 }
 
@@ -235,9 +449,6 @@ async function main(): Promise<void> {
         break
       case 'destroy':
         terraformOutput = executeDestroy(terraformInputs as DestroyOptions)
-        break
-      case 'env':
-        terraformOutput = executeEnv(terraformInputs as EnvOptions)
         break
       case 'fmt':
         terraformOutput = executeFmt(terraformInputs as FmtOptions)
@@ -307,4 +518,5 @@ async function main(): Promise<void> {
   }
 }
 
+const TERRAFORM_VERSION = 'terraform'
 main()

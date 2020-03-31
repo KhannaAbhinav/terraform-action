@@ -38,6 +38,7 @@ interface FmtTerraformOptions {
   diff?: string
   check?: string
   recursive?: string
+  dir?: string
 }
 
 interface GetTerraformOptions {
@@ -115,7 +116,6 @@ interface RefreshTerraformOptions {
   autoApprove?: string
   noColor?: string
   parallelism?: string
-  refresh?: string
   state?: string
   stateOut?: string
   target?: string
@@ -123,7 +123,7 @@ interface RefreshTerraformOptions {
     [key: string]: string
   }
   varFile?: string
-  dirOrPlan?: string
+  dir?: string
 }
 
 interface ShowTerraformOptions {
@@ -173,6 +173,7 @@ interface Upgrade012TerraformOptions {
 
 interface DebugTerraformOptions {
   subcommand: 'json2dot'
+  json: string
 }
 
 interface ForceUnlockTerraformOptions {
@@ -199,7 +200,7 @@ interface StateTerraformOptions {
 export type ApplyOptions = ApplyTerraformOptions & ExecOptions
 export type ConsoleOptions = ConsoleTerraformOptions & ExecOptions
 export type DestroyOptions = DestroyTerraformOptions & Omit<ApplyOptions, 'dirOrPlan'> & ExecOptions
-export type EnvOptions = ExecOptions
+
 export type FmtOptions = FmtTerraformOptions & ExecOptions
 export type GetOptions = GetTerraformOptions & ExecOptions
 export type GraphOptions = GraphTerraformOptions & ExecOptions
@@ -223,7 +224,6 @@ export type TerraformOptions =
   | ApplyOptions
   | ConsoleOptions
   | DestroyOptions
-  | EnvOptions
   | FmtOptions
   | GetOptions
   | GraphOptions

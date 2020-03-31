@@ -23,7 +23,12 @@ function addPathValueToArgs(value: string | undefined, args: string[]): string[]
   return args
 }
 
-export function addValueToArgs(type: string, flagToAdd: string, value: string | undefined, args: string[]): string[] {
+export function addValueToArgs(
+  type: 'string' | 'flag' | 'number' | 'boolean' | 'noflag',
+  flagToAdd: string,
+  value: string | undefined,
+  args: string[]
+): string[] {
   switch (type) {
     case 'flag':
       return addFlagToArgs(flagToAdd, value, args)
