@@ -1,22 +1,28 @@
 variable "github_token" {
   type=string
-  default="123"
+  
 }
 
-variable "github_organization" {
+variable "repo_name" {
   type=string
-  default= "KhannaAbhinav"
+  
+}
+
+variable "repo_description" {
+  type=string
+  default = ""
+  
 }
 
 provider "github" {
   token        = var.github_token
-  organization = var.github_organization
+  individual = true
 }
 
 
 resource "github_repository" "example" {
-  name        = "tf-sample"
-  description = "it may work"
+  name        = var.repo_name
+  description = var.repo_description
   private = true
 
 }
