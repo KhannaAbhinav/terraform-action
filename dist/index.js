@@ -3429,7 +3429,7 @@ let stdError = '';
 function setOptions(inputs) {
     const options = {};
     if (!inputs.cwd) {
-        inputs.cwd = ".";
+        inputs.cwd = '.';
     }
     options.cwd = inputs.cwd;
     options.failOnStdErr = true;
@@ -7874,7 +7874,7 @@ exports.uploadFile = uploadFile;
 function uploadDataAsFile(upload, data, fileName, artifactName, uploadOptions) {
     return __awaiter(this, void 0, void 0, function* () {
         if (upload) {
-            if (artifactName) {
+            if (!artifactName) {
                 core.error('Artifact name is required');
                 return;
             }
@@ -7884,13 +7884,13 @@ function uploadDataAsFile(upload, data, fileName, artifactName, uploadOptions) {
             }
             const artifactClient = artifact.create();
             const randomFolder = uuid.v4();
+            io.mkdirP(randomFolder);
             if (data) {
-                io.mkdirP(randomFolder);
                 const filePath = `./${randomFolder}/fileName`;
                 fs.appendFileSync(filePath, data);
                 const files = [];
                 files.push(filePath);
-                const uploadResult = yield artifactClient.uploadArtifact(artifactName, files, ".", uploadOptions);
+                const uploadResult = yield artifactClient.uploadArtifact(artifactName, files, '.', uploadOptions);
                 core.setOutput('uploadResult', `${uploadResult}`);
             }
             else {

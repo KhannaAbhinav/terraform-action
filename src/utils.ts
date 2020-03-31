@@ -90,7 +90,7 @@ export async function uploadDataAsFile(
   uploadOptions: artifact.UploadOptions
 ): Promise<void> {
   if (upload) {
-    if (artifactName) {
+    if (!artifactName) {
       core.error('Artifact name is required')
       return
     }
@@ -101,13 +101,13 @@ export async function uploadDataAsFile(
     const artifactClient = artifact.create()
 
     const randomFolder = uuid.v4()
+    io.mkdirP(randomFolder)
     if (data) {
-      io.mkdirP(randomFolder)
       const filePath = `./${randomFolder}/fileName`
       fs.appendFileSync(filePath, data)
       const files = []
       files.push(filePath)
-      const uploadResult = await artifactClient.uploadArtifact(artifactName as string, files, '.', uploadOptions)
+      const uploadResult = await artifactClient.uploadArtifact(artifactName, files, '.', uploadOptions)
       core.setOutput('uploadResult', `${uploadResult}`)
     } else {
       core.setFailed('Data to be uploaded is undefined')
