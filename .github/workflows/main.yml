@@ -5,8 +5,10 @@ jobs:
     name: Execute Terraform Commands
     runs-on: ubuntu-latest
     steps:
+      
       - name: Checkout Files
         uses: actions/checkout@v1
+      
       - name: Call Terraform Action
         id: tf1
         uses: "./"
@@ -36,11 +38,31 @@ jobs:
                   "github_token": "${{ secrets.access_token }}",
                   "repo_name": "Random-repo-${{ github.run_id }}"
                 },
-                "out" : "tf.plan.json",
-                "cwd" : "./tf"
+                "out" : "tf.plan",
+                "cwd" : "./tf",
+                "upload": true,
+                "artifactName": "planFile",
+                "continueOnError": true
               }
         env:
           GITHUB_TOKEN: ${{ secrets.access_token }}
+      
+
+      - name: Call Terraform Action Show
+        id: tf3
+        uses: "./"
+        with:
+            command: show
+            params: |
+              { 
+               
+                "path" : "tf.plan",
+                "cwd" : "./tf",
+                "upload": true,
+                "artifactName": "planFileJson",
+                "continueOnError": false,
+                "fileName": "planfile.json"
+              }
       
       - name: Call Terraform Action Apply
         id: tf4

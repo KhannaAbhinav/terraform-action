@@ -3,6 +3,16 @@ interface ExecOptions {
   version: string
 }
 
+interface Artifact {
+  artifactName?: string
+  upload?: boolean
+  filename?: string
+}
+
+interface UploadOptions {
+  continueOnError?: boolean
+}
+
 interface ApplyTerraformOptions {
   backup?: string
   compactWarnings?: string
@@ -197,29 +207,34 @@ interface StateTerraformOptions {
   destination?: string
 }
 
-export type ApplyOptions = ApplyTerraformOptions & ExecOptions
-export type ConsoleOptions = ConsoleTerraformOptions & ExecOptions
-export type DestroyOptions = DestroyTerraformOptions & Omit<ApplyOptions, 'dirOrPlan'> & ExecOptions
+export type ApplyOptions = ApplyTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type ConsoleOptions = ConsoleTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type DestroyOptions = DestroyTerraformOptions &
+  Omit<ApplyOptions, 'dirOrPlan'> &
+  ExecOptions &
+  Artifact &
+  UploadOptions
 
-export type FmtOptions = FmtTerraformOptions & ExecOptions
-export type GetOptions = GetTerraformOptions & ExecOptions
-export type GraphOptions = GraphTerraformOptions & ExecOptions
-export type ImportOptions = ImportTerraformOptions & ExecOptions
-export type InitOptions = InitTerraformOptions & ExecOptions
-export type OutputOptions = OutputTerraformOptions & ExecOptions
-export type PlanOptions = PlanTerraformOptions & ExecOptions
-export type ProvidersOptions = ProvidersTerraformOptions & ExecOptions
-export type RefreshOptions = RefreshTerraformOptions & ExecOptions
-export type ShowOptions = ShowTerraformOptions & ExecOptions
-export type TaintOptions = TaintTerraformOptions & ExecOptions
-export type UntaintOptions = UntaintTerraformOptions & ExecOptions
-export type ValidateOptions = ValidateTerraformOptions & ExecOptions
-export type VersionOptions = ExecOptions
-export type WorkspaceOptions = WorkspaceTerraformOptions & ExecOptions
-export type Upgrade012Options = Upgrade012TerraformOptions & ExecOptions
-export type DebugOptions = DebugTerraformOptions & ExecOptions
-export type ForceUnlockOptions = ForceUnlockTerraformOptions & ExecOptions
-export type StateOptions = StateTerraformOptions & ExecOptions
+export type FmtOptions = FmtTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type GetOptions = GetTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type GraphOptions = GraphTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type ImportOptions = ImportTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type InitOptions = InitTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type OutputOptions = OutputTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type PlanOptions = PlanTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type ProvidersOptions = ProvidersTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type RefreshOptions = RefreshTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type ShowOptions = ShowTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type TaintOptions = TaintTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type UntaintOptions = UntaintTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type ValidateOptions = ValidateTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type VersionOptions = ExecOptions & Artifact & UploadOptions
+export type WorkspaceOptions = WorkspaceTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type Upgrade012Options = Upgrade012TerraformOptions & ExecOptions & Artifact & UploadOptions
+export type DebugOptions = DebugTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type ForceUnlockOptions = ForceUnlockTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type StateOptions = StateTerraformOptions & ExecOptions & Artifact & UploadOptions
+
 export type TerraformOptions =
   | ApplyOptions
   | ConsoleOptions

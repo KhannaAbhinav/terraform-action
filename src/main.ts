@@ -1,6 +1,7 @@
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
-import {addValueToArgs} from './utils'
+import {UploadOptions} from '@actions/artifact'
+import {addValueToArgs, uploadFile, uploadDataAsFile} from './utils'
 import {ExecOptions} from '@actions/exec/lib/interfaces'
 import {
   ApplyOptions,
@@ -28,24 +29,25 @@ import {
   TerraformOptions
 } from './typings/interfaces'
 
-function setOptions(inputs: TerraformOptions): ExecOptions {
-  let myOutput = ''
-  let myError = ''
+let stdOutput = ''
+let stdError = ''
 
+function setOptions(inputs: TerraformOptions): ExecOptions {
   const options: ExecOptions = {}
-  if (inputs.cwd) {
-    options.cwd = inputs.cwd
+  if (!inputs.cwd) {
+    inputs.cwd = '.'
   }
+  options.cwd = inputs.cwd
   options.failOnStdErr = true
 
   options.listeners = {
     stdout: (data: Buffer) => {
-      myOutput += data.toString()
-      core.setOutput('stdOut', myOutput)
+      stdOutput += data.toString()
+      core.setOutput('stdOut', stdOutput)
     },
     stderr: (data: Buffer) => {
-      myError += data.toString()
-      core.setOutput('stdErr', myError)
+      stdError += data.toString()
+      core.setOutput('stdErr', stdError)
     }
   }
   return options
@@ -229,6 +231,14 @@ async function executePlan(inputs: PlanOptions): Promise<void> {
   args = addValueToArgs('noflag', '', inputs.dir, args)
 
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
+  await uploadFile(inputs.upload, inputs.out, inputs.cwd, inputs.artifactName, setUploadOptions(inputs))
+}
+
+function setUploadOptions(inputs: TerraformOptions): UploadOptions {
+  const uploadOptions: UploadOptions = {
+    continueOnError: Boolean(inputs.continueOnError)
+  }
+  return uploadOptions
 }
 
 async function executeProviders(inputs: ProvidersOptions): Promise<void> {
@@ -274,6 +284,7 @@ async function executeShow(inputs: ShowOptions): Promise<void> {
   args = addValueToArgs('flag', 'json', inputs.json, args)
   args = addValueToArgs('noflag', '', inputs.path, args)
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
+  await uploadDataAsFile(inputs.upload, stdOutput, inputs.filename, inputs.artifactName, setUploadOptions(inputs))
 }
 async function executeTaint(inputs: TaintOptions): Promise<void> {
   let args = ['taint']
