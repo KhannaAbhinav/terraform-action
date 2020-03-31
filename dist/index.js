@@ -1011,12 +1011,12 @@ function executeApply(inputs) {
         if (inputs.var) {
             const varMap = new Map(Object.entries(inputs.var));
             for (const key of varMap.keys()) {
-                args.push(`-var`);
-                args.push(`${key}=${varMap.get(key)}`);
+                args = utils_1.addValueToArgs('flag', 'var', "true", args);
+                args = utils_1.addValueToArgs('noflag', '', `${key}=${varMap.get(key)}`, args);
             }
         }
         args = utils_1.addValueToArgs('string', 'var-file', inputs.varFile, args);
-        args = utils_1.addValueToArgs('path', '', inputs.dirOrPlan, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.dirOrPlan, args);
         yield exec.exec('terraform', args, setOptions(inputs));
         return inputs;
     });
@@ -1071,7 +1071,7 @@ function executeInit(inputs) {
         args = utils_1.addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args);
         args = utils_1.addValueToArgs('flag', 'no-color', inputs.noColor, args);
         args = utils_1.addValueToArgs('flag', 'upgrade', inputs.upgrade, args);
-        args = utils_1.addValueToArgs('path', '', inputs.dir, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
         yield exec.exec('terraform', args, setOptions(inputs));
         return inputs;
     });
@@ -1105,7 +1105,7 @@ function executePlan(inputs) {
             }
         }
         args = utils_1.addValueToArgs('string', 'var-file', inputs.varFile, args);
-        args = utils_1.addValueToArgs('path', '', inputs.dir, args);
+        args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
         yield exec.exec('terraform', args, setOptions(inputs));
         return inputs;
     });
@@ -1630,7 +1630,7 @@ function addValueToArgs(type, flagToAdd, value, args) {
             return addNumberValueToArgs(flagToAdd, value, args);
         case 'string':
             return addStringValueToArgs(flagToAdd, value, args);
-        case 'path':
+        case 'noflag':
             return addPathValueToArgs(value, args);
         default:
             return addStringValueToArgs(flagToAdd, value, args);

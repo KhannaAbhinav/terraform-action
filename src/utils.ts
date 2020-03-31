@@ -33,7 +33,7 @@ export function addValueToArgs(type: string, flagToAdd: string, value: string | 
       return addNumberValueToArgs(flagToAdd, value, args)
     case 'string':
       return addStringValueToArgs(flagToAdd, value, args)
-    case 'path':
+    case 'noflag':
       return addPathValueToArgs(value, args)
     default:
       return addStringValueToArgs(flagToAdd, value, args)

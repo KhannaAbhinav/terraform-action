@@ -71,13 +71,13 @@ async function executeApply(inputs: ApplyOptions): Promise<{}> {
   if (inputs.var) {
     const varMap = new Map(Object.entries(inputs.var))
     for (const key of varMap.keys()) {
-      args.push(`-var`)
-      args.push(`${key}=${varMap.get(key)}`)
+      args = addValueToArgs('flag', 'var', 'true', args)
+      args = addValueToArgs('noflag', '', `${key}=${varMap.get(key)}`, args)
     }
   }
 
   args = addValueToArgs('string', 'var-file', inputs.varFile, args)
-  args = addValueToArgs('path', '', inputs.dirOrPlan, args)
+  args = addValueToArgs('noflag', '', inputs.dirOrPlan, args)
 
   await exec.exec('terraform', args, setOptions(inputs))
   return inputs
@@ -118,7 +118,7 @@ async function executeInit(inputs: InitOptions): Promise<{}> {
   args = addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args)
   args = addValueToArgs('flag', 'no-color', inputs.noColor, args)
   args = addValueToArgs('flag', 'upgrade', inputs.upgrade, args)
-  args = addValueToArgs('path', '', inputs.dir, args)
+  args = addValueToArgs('noflag', '', inputs.dir, args)
 
   await exec.exec('terraform', args, setOptions(inputs))
   return inputs
@@ -156,7 +156,7 @@ async function executePlan(inputs: PlanOptions): Promise<{}> {
   }
 
   args = addValueToArgs('string', 'var-file', inputs.varFile, args)
-  args = addValueToArgs('path', '', inputs.dir, args)
+  args = addValueToArgs('noflag', '', inputs.dir, args)
 
   await exec.exec('terraform', args, setOptions(inputs))
 
