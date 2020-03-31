@@ -1,4 +1,4 @@
-name: A workflow to execute Terraform commands
+name: Terraform Commands
 on: push
 jobs:
   build:
