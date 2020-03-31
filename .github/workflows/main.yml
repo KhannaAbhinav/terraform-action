@@ -34,7 +34,7 @@ jobs:
               { 
                 "var" :{
                   "github_token": "${{ secrets.access_token }}",
-                  "repo_name": " Random-repo-${{ github.run_id }}"
+                  "repo_name": "Random-repo-${{ github.run_id }}"
                 },
                 "out" : "tf.plan.json",
                 "cwd" : "./tf"
