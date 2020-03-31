@@ -41,17 +41,17 @@ function setOptions(inputs: TerraformOptions): ExecOptions {
   options.listeners = {
     stdout: (data: Buffer) => {
       myOutput += data.toString()
+      core.setOutput('stdOut', myOutput)
     },
     stderr: (data: Buffer) => {
       myError += data.toString()
+      core.setOutput('stdErr', myError)
     }
   }
-  core.info(myOutput)
-  core.info(myError)
   return options
 }
 
-async function executeApply(inputs: ApplyOptions): Promise<{}> {
+async function executeApply(inputs: ApplyOptions): Promise<void> {
   let args = ['apply']
 
   args = addValueToArgs('flag', 'compact-warnings', inputs.compactWarnings, args)
@@ -79,19 +79,17 @@ async function executeApply(inputs: ApplyOptions): Promise<{}> {
   args = addValueToArgs('noflag', '', inputs.dirOrPlan, args)
 
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
 
-async function executeConsole(inputs: ConsoleOptions): Promise<{}> {
+async function executeConsole(inputs: ConsoleOptions): Promise<void> {
   let args = ['console']
 
   args = addValueToArgs('string', 'state', inputs.state, args)
   args = addValueToArgs('noflag', '', inputs.dir, args)
 
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
-async function executeDestroy(inputs: DestroyOptions): Promise<{}> {
+async function executeDestroy(inputs: DestroyOptions): Promise<void> {
   let args = ['destroy']
 
   args = addValueToArgs('flag', 'compact-warnings', inputs.compactWarnings, args)
@@ -119,10 +117,9 @@ async function executeDestroy(inputs: DestroyOptions): Promise<{}> {
   args = addValueToArgs('noflag', '', inputs.dir, args)
 
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
 
-async function executeFmt(inputs: FmtOptions): Promise<{}> {
+async function executeFmt(inputs: FmtOptions): Promise<void> {
   let args = ['fmt']
   args = addValueToArgs('boolean', 'list', inputs.list, args)
   args = addValueToArgs('boolean', 'write', inputs.write, args)
@@ -134,19 +131,17 @@ async function executeFmt(inputs: FmtOptions): Promise<{}> {
   args = addValueToArgs('noflag', '', inputs.dir, args)
 
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
-async function executeGet(inputs: GetOptions): Promise<{}> {
+async function executeGet(inputs: GetOptions): Promise<void> {
   let args = ['get']
 
   args = addValueToArgs('flag', 'update', inputs.update, args)
   args = addValueToArgs('noflag', '', inputs.dir, args)
 
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
 
-async function executeGraph(inputs: GraphOptions): Promise<{}> {
+async function executeGraph(inputs: GraphOptions): Promise<void> {
   let args = ['graph']
 
   args = addValueToArgs('flag', 'draw-cycles', inputs.drawCycles, args)
@@ -154,10 +149,8 @@ async function executeGraph(inputs: GraphOptions): Promise<{}> {
   args = addValueToArgs('noflag', '', inputs.dir, args)
 
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-
-  return inputs
 }
-async function executeImport(inputs: ImportOptions): Promise<{}> {
+async function executeImport(inputs: ImportOptions): Promise<void> {
   let args = ['import']
 
   args = addValueToArgs('string', 'backup', inputs.backup, args)
@@ -184,9 +177,8 @@ async function executeImport(inputs: ImportOptions): Promise<{}> {
   args = addValueToArgs('noflag', '', inputs.addressId, args)
 
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
-async function executeInit(inputs: InitOptions): Promise<{}> {
+async function executeInit(inputs: InitOptions): Promise<void> {
   let args = ['init']
   args = addValueToArgs('boolean', 'input', inputs.input, args)
   args = addValueToArgs('boolean', 'lock', inputs.lock, args)
@@ -195,10 +187,8 @@ async function executeInit(inputs: InitOptions): Promise<{}> {
   args = addValueToArgs('flag', 'upgrade', inputs.upgrade, args)
   args = addValueToArgs('noflag', '', inputs.dir, args)
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-
-  return inputs
 }
-async function executeOutput(inputs: OutputOptions): Promise<{}> {
+async function executeOutput(inputs: OutputOptions): Promise<void> {
   let args = ['output']
 
   args = addValueToArgs('flag', 'no-color', inputs.noColor, args)
@@ -206,9 +196,8 @@ async function executeOutput(inputs: OutputOptions): Promise<{}> {
   args = addValueToArgs('string', 'state', inputs.state, args)
   args = addValueToArgs('noflag', '', inputs.name, args)
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
-async function executePlan(inputs: PlanOptions): Promise<{}> {
+async function executePlan(inputs: PlanOptions): Promise<void> {
   let args = ['plan']
 
   args = addValueToArgs('flag', 'compact-warnings', inputs.compactWarnings, args)
@@ -240,18 +229,15 @@ async function executePlan(inputs: PlanOptions): Promise<{}> {
   args = addValueToArgs('noflag', '', inputs.dir, args)
 
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-
-  return inputs
 }
 
-async function executeProviders(inputs: ProvidersOptions): Promise<{}> {
+async function executeProviders(inputs: ProvidersOptions): Promise<void> {
   let args = ['providers']
 
   args = addValueToArgs('noflag', '', inputs.configPath, args)
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
-async function executeRefresh(inputs: RefreshOptions): Promise<{}> {
+async function executeRefresh(inputs: RefreshOptions): Promise<void> {
   let args = ['refresh']
 
   args = addValueToArgs('string', 'backup', inputs.backup, args)
@@ -280,18 +266,16 @@ async function executeRefresh(inputs: RefreshOptions): Promise<{}> {
   args = addValueToArgs('noflag', '', inputs.dir, args)
 
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
-async function executeShow(inputs: ShowOptions): Promise<{}> {
+async function executeShow(inputs: ShowOptions): Promise<void> {
   let args = ['show']
 
   args = addValueToArgs('flag', 'no-color', inputs.noColor, args)
   args = addValueToArgs('flag', 'json', inputs.json, args)
   args = addValueToArgs('noflag', '', inputs.path, args)
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
-async function executeTaint(inputs: TaintOptions): Promise<{}> {
+async function executeTaint(inputs: TaintOptions): Promise<void> {
   let args = ['taint']
 
   args = addValueToArgs('flag', 'allow-missing', inputs.allowMissing, args)
@@ -305,9 +289,8 @@ async function executeTaint(inputs: TaintOptions): Promise<{}> {
   args = addValueToArgs('noflag', '', inputs.address, args)
 
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
-async function executeUntaint(inputs: UntaintOptions): Promise<{}> {
+async function executeUntaint(inputs: UntaintOptions): Promise<void> {
   let args = ['untaint']
 
   args = addValueToArgs('flag', 'allow-missing', inputs.allowMissing, args)
@@ -323,21 +306,18 @@ async function executeUntaint(inputs: UntaintOptions): Promise<{}> {
   args = addValueToArgs('noflag', '', inputs.name, args)
 
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
-async function executeValidate(inputs: ValidateOptions): Promise<{}> {
+async function executeValidate(inputs: ValidateOptions): Promise<void> {
   let args = ['validate']
   args = addValueToArgs('flag', 'no-color', inputs.noColor, args)
   args = addValueToArgs('flag', 'json', inputs.json, args)
   args = addValueToArgs('noflag', '', inputs.dir, args)
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
-async function executeVersion(inputs: VersionOptions): Promise<{}> {
+async function executeVersion(inputs: VersionOptions): Promise<void> {
   await exec.exec(TERRAFORM_VERSION, ['-version'], setOptions(inputs))
-  return inputs
 }
-async function executeWorkspace(inputs: WorkspaceOptions): Promise<{}> {
+async function executeWorkspace(inputs: WorkspaceOptions): Promise<void> {
   let args = ['workspace']
 
   args = addValueToArgs('noflag', '', inputs.subcommand, args)
@@ -357,26 +337,22 @@ async function executeWorkspace(inputs: WorkspaceOptions): Promise<{}> {
   }
 
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
-async function execute012Upgrade(inputs: Upgrade012Options): Promise<{}> {
+async function execute012Upgrade(inputs: Upgrade012Options): Promise<void> {
   let args = ['0.12upgrade']
   args = addValueToArgs('flag', 'yes', inputs.yes, args)
   args = addValueToArgs('flag', 'force', inputs.force, args)
   args = addValueToArgs('noflag', '', inputs.dir, args)
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
-async function executeDebug(inputs: DebugOptions): Promise<{}> {
+async function executeDebug(inputs: DebugOptions): Promise<void> {
   let args = ['debug']
 
   args = addValueToArgs('noflag', '', inputs.subcommand, args)
   args = addValueToArgs('noflag', '', inputs.json, args)
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-
-  return inputs
 }
-async function executeForceUnlock(inputs: ForceUnlockOptions): Promise<{}> {
+async function executeForceUnlock(inputs: ForceUnlockOptions): Promise<void> {
   let args = ['force-unlock']
 
   args = addValueToArgs('flag', 'force', inputs.force, args)
@@ -384,10 +360,8 @@ async function executeForceUnlock(inputs: ForceUnlockOptions): Promise<{}> {
   args = addValueToArgs('noflag', '', inputs.dir, args)
 
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-
-  return inputs
 }
-async function executeState(inputs: StateOptions): Promise<{}> {
+async function executeState(inputs: StateOptions): Promise<void> {
   let args = ['state']
 
   args = addValueToArgs('noflag', '', inputs.subcommand, args)
@@ -423,7 +397,6 @@ async function executeState(inputs: StateOptions): Promise<{}> {
   }
 
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
-  return inputs
 }
 
 async function main(): Promise<void> {

@@ -984,13 +984,13 @@ function setOptions(inputs) {
     options.listeners = {
         stdout: (data) => {
             myOutput += data.toString();
+            core.setOutput('stdOut', myOutput);
         },
         stderr: (data) => {
             myError += data.toString();
+            core.setOutput('stdErr', myError);
         }
     };
-    core.info(myOutput);
-    core.info(myError);
     return options;
 }
 function executeApply(inputs) {
@@ -1018,7 +1018,6 @@ function executeApply(inputs) {
         args = utils_1.addValueToArgs('string', 'var-file', inputs.varFile, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.dirOrPlan, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeConsole(inputs) {
@@ -1027,7 +1026,6 @@ function executeConsole(inputs) {
         args = utils_1.addValueToArgs('string', 'state', inputs.state, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeDestroy(inputs) {
@@ -1055,7 +1053,6 @@ function executeDestroy(inputs) {
         args = utils_1.addValueToArgs('string', 'var-file', inputs.varFile, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeFmt(inputs) {
@@ -1068,7 +1065,6 @@ function executeFmt(inputs) {
         args = utils_1.addValueToArgs('flag', 'recursive', inputs.recursive, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeGet(inputs) {
@@ -1077,7 +1073,6 @@ function executeGet(inputs) {
         args = utils_1.addValueToArgs('flag', 'update', inputs.update, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeGraph(inputs) {
@@ -1087,7 +1082,6 @@ function executeGraph(inputs) {
         args = utils_1.addValueToArgs('string', 'type', inputs.type, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeImport(inputs) {
@@ -1112,7 +1106,6 @@ function executeImport(inputs) {
         args = utils_1.addValueToArgs('string', 'var-file', inputs.varFile, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.addressId, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeInit(inputs) {
@@ -1125,7 +1118,6 @@ function executeInit(inputs) {
         args = utils_1.addValueToArgs('flag', 'upgrade', inputs.upgrade, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeOutput(inputs) {
@@ -1136,7 +1128,6 @@ function executeOutput(inputs) {
         args = utils_1.addValueToArgs('string', 'state', inputs.state, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.name, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executePlan(inputs) {
@@ -1164,7 +1155,6 @@ function executePlan(inputs) {
         args = utils_1.addValueToArgs('string', 'var-file', inputs.varFile, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeProviders(inputs) {
@@ -1172,7 +1162,6 @@ function executeProviders(inputs) {
         let args = ['providers'];
         args = utils_1.addValueToArgs('noflag', '', inputs.configPath, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeRefresh(inputs) {
@@ -1198,7 +1187,6 @@ function executeRefresh(inputs) {
         args = utils_1.addValueToArgs('string', 'var-file', inputs.varFile, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeShow(inputs) {
@@ -1208,7 +1196,6 @@ function executeShow(inputs) {
         args = utils_1.addValueToArgs('flag', 'json', inputs.json, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.path, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeTaint(inputs) {
@@ -1222,7 +1209,6 @@ function executeTaint(inputs) {
         args = utils_1.addValueToArgs('string', 'state-out', inputs.stateOut, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.address, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeUntaint(inputs) {
@@ -1238,7 +1224,6 @@ function executeUntaint(inputs) {
         args = utils_1.addValueToArgs('string', 'state-out', inputs.stateOut, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.name, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeValidate(inputs) {
@@ -1248,13 +1233,11 @@ function executeValidate(inputs) {
         args = utils_1.addValueToArgs('flag', 'json', inputs.json, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeVersion(inputs) {
     return __awaiter(this, void 0, void 0, function* () {
         yield exec.exec(TERRAFORM_VERSION, ['-version'], setOptions(inputs));
-        return inputs;
     });
 }
 function executeWorkspace(inputs) {
@@ -1273,7 +1256,6 @@ function executeWorkspace(inputs) {
             args = utils_1.addValueToArgs('noflag', '', inputs.name, args);
         }
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function execute012Upgrade(inputs) {
@@ -1283,7 +1265,6 @@ function execute012Upgrade(inputs) {
         args = utils_1.addValueToArgs('flag', 'force', inputs.force, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeDebug(inputs) {
@@ -1292,7 +1273,6 @@ function executeDebug(inputs) {
         args = utils_1.addValueToArgs('noflag', '', inputs.subcommand, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.json, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeForceUnlock(inputs) {
@@ -1302,7 +1282,6 @@ function executeForceUnlock(inputs) {
         args = utils_1.addValueToArgs('noflag', '', inputs.lockId, args);
         args = utils_1.addValueToArgs('noflag', '', inputs.dir, args);
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function executeState(inputs) {
@@ -1335,7 +1314,6 @@ function executeState(inputs) {
             args = utils_1.addValueToArgs('noflag', '', inputs.address, args);
         }
         yield exec.exec(TERRAFORM_VERSION, args, setOptions(inputs));
-        return inputs;
     });
 }
 function main() {
