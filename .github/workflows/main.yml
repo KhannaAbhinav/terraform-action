@@ -59,9 +59,9 @@ jobs:
                 "path" : "tf.plan",
                 "cwd" : "./tf",
                 "upload": true,
-                "artifactName": "planFileJson",
+                "artifactName": "planFileText",
                 "continueOnError": false,
-                "fileName": "planfile.json"
+                "fileName": "planfile.txt"
               }
       
       - name: Call Terraform Action Show
