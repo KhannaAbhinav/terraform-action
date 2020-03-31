@@ -53,42 +53,32 @@ function setOptions(inputs: TerraformOptions): ExecOptions {
 }
 
 async function executeApply(inputs: ApplyOptions): Promise<{}> {
-  const args = ['apply']
+  let args = ['apply']
 
-  if (Boolean(inputs.compactWarnings) === true) args.push('-compact-warnings')
-
-  if (inputs.backup) args.push(`-backup=${inputs.backup}`)
-
-  if ('input' in inputs) args.push(`-input=${Boolean(inputs.input)}`)
-
-  if ('lock' in inputs) args.push(`-lock=${Boolean(inputs.lock)}`)
-
-  if (inputs.lockTimeout) args.push(`-lock-timeout=${+inputs.lockTimeout}`)
-
-  if (Boolean(inputs.noColor) === true) args.push('-no-color')
-
-  if (Boolean(inputs.autoApprove) === true) args.push('-auto-approve')
-
-  if (inputs.parallelism) args.push(`-parallelism=${+inputs.parallelism}`)
-
-  if (inputs.refresh) args.push(`-refresh=${Boolean(inputs.refresh)}`)
-
-  if (inputs.state) args.push(`-state=${inputs.state}`)
-
-  if (inputs.stateOut) args.push(`-state-out=${inputs.stateOut}`)
-
-  if (inputs.target) args.push(`-target=${inputs.target}`)
+  args = addValueToArgs('flag', 'compact-warnings', inputs.compactWarnings, args)
+  args = addValueToArgs('string', 'backup', inputs.backup, args)
+  args = addValueToArgs('boolean', 'input', inputs.input, args)
+  args = addValueToArgs('boolean', 'lock', inputs.lock, args)
+  args = addValueToArgs('number', 'lock-timeout', inputs.lockTimeout, args)
+  args = addValueToArgs('flag', 'no-color', inputs.noColor, args)
+  args = addValueToArgs('flag', 'auto-approve', inputs.autoApprove, args)
+  args = addValueToArgs('number', 'parallelism', inputs.parallelism, args)
+  args = addValueToArgs('boolean', 'refresh', inputs.refresh, args)
+  args = addValueToArgs('string', 'state', inputs.state, args)
+  args = addValueToArgs('string', 'state-out', inputs.stateOut, args)
+  args = addValueToArgs('string', 'target', inputs.target, args)
 
   if (inputs.var) {
     const varMap = new Map(Object.entries(inputs.var))
     for (const key of varMap.keys()) {
-      args.push(`-var '${key}=${varMap.get(key)}'`)
+      args.push(`-var`)
+      args.push(`${key}='${varMap.get(key)}'`)
     }
   }
 
-  if (inputs.varFile) args.push(`-var-file=${inputs.varFile}`)
+  args = addValueToArgs('string', 'var-file', inputs.varFile, args)
+  args = addValueToArgs('path', '', inputs.dirOrPlan, args)
 
-  if (inputs.dirOrPlan) args.push(inputs.dirOrPlan)
   await exec.exec('terraform', args, setOptions(inputs))
   return inputs
 }
