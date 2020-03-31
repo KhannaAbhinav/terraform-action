@@ -150,8 +150,8 @@ async function executePlan(inputs: PlanOptions): Promise<{}> {
   if (inputs.var) {
     const varMap = new Map(Object.entries(inputs.var))
     for (const key of varMap.keys()) {
-      args.push(`-var`)
-      args.push(`${key}='${varMap.get(key)}'`)
+      args = addValueToArgs('flag', 'var', 'true', args)
+      args = addValueToArgs('noflag', '', `${key}=${varMap.get(key)}`, args)
     }
   }
 

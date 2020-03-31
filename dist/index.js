@@ -1011,7 +1011,7 @@ function executeApply(inputs) {
         if (inputs.var) {
             const varMap = new Map(Object.entries(inputs.var));
             for (const key of varMap.keys()) {
-                args = utils_1.addValueToArgs('flag', 'var', "true", args);
+                args = utils_1.addValueToArgs('flag', 'var', 'true', args);
                 args = utils_1.addValueToArgs('noflag', '', `${key}=${varMap.get(key)}`, args);
             }
         }
@@ -1100,8 +1100,8 @@ function executePlan(inputs) {
         if (inputs.var) {
             const varMap = new Map(Object.entries(inputs.var));
             for (const key of varMap.keys()) {
-                args.push(`-var`);
-                args.push(`${key}='${varMap.get(key)}'`);
+                args = utils_1.addValueToArgs('flag', 'var', 'true', args);
+                args = utils_1.addValueToArgs('noflag', '', `${key}=${varMap.get(key)}`, args);
             }
         }
         args = utils_1.addValueToArgs('string', 'var-file', inputs.varFile, args);
