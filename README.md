@@ -1,3 +1,6 @@
+![A workflow to execute Terraform commands](https://github.com/KhannaAbhinav/terraform-action/workflows/A%20workflow%20to%20execute%20Terraform%20commands/badge.svg)
+
+---
 # Execute Terraform Commands
 
 ## Introduction
