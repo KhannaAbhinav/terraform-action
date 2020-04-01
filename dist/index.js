@@ -11415,11 +11415,11 @@ function executeDownload(TERRAFORM_VERSION, inputs) {
     return __awaiter(this, void 0, void 0, function* () {
         let os = 'linux';
         let tfLocation = '/usr/local/terraform';
-        // let quote = `'`
+        let quote = `'`;
         if (process.platform === 'win32') {
             os = 'windows';
             tfLocation = 'c:/terraform';
-            // quote = `"`
+            quote = `"`;
         }
         let askedVersion = '';
         if (inputs.version === 'latest') {
@@ -11428,7 +11428,7 @@ function executeDownload(TERRAFORM_VERSION, inputs) {
             stdOutput = '';
             yield exec.exec('jq', ['--version'], setOptions(inputs));
             stdOutput = '';
-            yield exec.exec('jq', ['-n', '-r', `'$jsonText|.current_version'`, '--argjson', 'jsonText', curlOutput], setOptions(inputs));
+            yield exec.exec('jq', ['-n', '-r', `${quote}$jsonText|.current_version${quote}`, '--argjson', 'jsonText', curlOutput], setOptions(inputs));
             askedVersion = stdOutput;
             stdOutput = '';
             core.info(`Latest Version is ${askedVersion}`);
