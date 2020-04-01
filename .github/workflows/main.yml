@@ -3,7 +3,12 @@ on: push
 jobs:
   build:
     name: Execute Terraform Commands
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        tf_version: ['0.11.15-oci', 'latest']
+        os: [ubuntu-latest, windows-latest]
     steps:
       
       - name: Checkout Files
@@ -16,10 +21,10 @@ jobs:
             command: download
             params: |
               {
-                "version" : "0.11.15-oci"
+                "version" : ${{ matrix.tf_version }}
               }
 
-      - name: Call Terraform Action
+      - name: Call Terraform Action Version
         id: tfVersion
         uses: "./"
         with:
