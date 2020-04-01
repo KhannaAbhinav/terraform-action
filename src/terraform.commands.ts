@@ -434,9 +434,14 @@ export async function executeDownload(TERRAFORM_VERSION: string, inputs: Downloa
     askedVersion = inputs.version
     core.info(`Asked Version is ${askedVersion}`)
   }
+  let installedVersion = ''
+  try {
+    await executeVersion(TERRAFORM_VERSION, inputs as VersionOptions)
+    installedVersion = stdOutput
+  } catch (err) {
+    core.info('No terraform installed')
+  }
 
-  await executeVersion(TERRAFORM_VERSION, inputs as VersionOptions)
-  const installedVersion = stdOutput
   core.info(`Installed Version is ${installedVersion}`)
 
   if (installedVersion !== `Terraform v${askedVersion}`) {
