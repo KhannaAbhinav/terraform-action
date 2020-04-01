@@ -1,6 +1,5 @@
 interface ExecOptions {
   cwd?: string
-  version: string
 }
 
 interface Artifact {
@@ -193,7 +192,7 @@ interface ForceUnlockTerraformOptions {
 }
 
 interface DownloadTerraformOptions {
-  version?: string
+  version: string
 }
 
 interface StateTerraformOptions {

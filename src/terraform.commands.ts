@@ -328,7 +328,7 @@ export async function executeValidate(TERRAFORM_VERSION: string, inputs: Validat
 }
 export async function executeVersion(TERRAFORM_VERSION: string, inputs: VersionOptions): Promise<void> {
   let args: string[] = []
-  args = addValueToArgs('flag', 'version', inputs.version, args)
+  args = addValueToArgs('flag', 'version', 'true', args)
   await exec.exec(TERRAFORM_VERSION, args, setOptions(inputs))
 }
 export async function executeWorkspace(TERRAFORM_VERSION: string, inputs: WorkspaceOptions): Promise<void> {
@@ -434,11 +434,11 @@ export async function executeDownload(TERRAFORM_VERSION: string, inputs: Downloa
     core.info(`Asked Version is ${askedVersion}`)
   }
 
-  await executeVersion(TERRAFORM_VERSION, inputs)
+  await executeVersion(TERRAFORM_VERSION, inputs as VersionOptions)
   const installedVersion = stdOutput
   core.info(`Installed Version is ${installedVersion}`)
 
-  if (installedVersion !== askedVersion) {
+  if (installedVersion !== `Terraform v${askedVersion}`) {
     const terraformDownloadLink = `https://releases.hashicorp.com/terraform/${askedVersion}/terraform_${askedVersion}_${os}_amd64.zip`
     const terraformPath = await tc.downloadTool(terraformDownloadLink)
     const terraformExtractedFolder = await tc.extractZip(terraformPath, tfLocation)

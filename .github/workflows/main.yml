@@ -9,7 +9,7 @@ jobs:
       - name: Checkout Files
         uses: actions/checkout@v1
       
-      - name: Call Terraform Action
+      - name: Call Terraform Action Download
         id: tfDownload
         uses: "./"
         with:

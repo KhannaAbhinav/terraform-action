@@ -47,7 +47,8 @@ import {
   Upgrade012Options,
   ValidateOptions,
   VersionOptions,
-  WorkspaceOptions
+  WorkspaceOptions,
+  DownloadOptions
 } from './typings/interfaces'
 
 async function main(): Promise<void> {
@@ -134,7 +135,7 @@ async function main(): Promise<void> {
         break
 
       case 'download':
-        terraformOutput = executeDownload(TERRAFORM_VERSION, terraformInputs as StateOptions)
+        terraformOutput = executeDownload(TERRAFORM_VERSION, terraformInputs as DownloadOptions)
         break
 
       default:
