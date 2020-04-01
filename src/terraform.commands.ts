@@ -431,7 +431,7 @@ export async function executeDownload(TERRAFORM_VERSION: string, inputs: Downloa
     const curlOutput = stdOutput
 
     await exec.exec(
-      `jq -nr ${quote}$ARGS.positional[0]|fromjson.currentversion${quote} --args ${quote}${curlOutput}${quote}`,
+      `jq -nr ${quote}$ARGS.jsonText|.currentversion${quote} --argjson jsonText ${quote}${curlOutput}${quote}`,
       [],
       setOptions(inputs)
     )
