@@ -11415,17 +11415,17 @@ function executeDownload(TERRAFORM_VERSION, inputs) {
     return __awaiter(this, void 0, void 0, function* () {
         let os = 'linux';
         let tfLocation = '/usr/local/terraform';
-        let quote = `'`;
+        // let quote = `'`
         if (process.platform === 'win32') {
             os = 'windows';
             tfLocation = 'c:/terraform';
-            quote = `"`;
+            // quote = `"`
         }
         let askedVersion = '';
         if (inputs.version === 'latest') {
-            yield exec.exec(`curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform`, [], setOptions(inputs));
+            yield exec.exec('curl', ['-s', 'https://checkpoint-api.hashicorp.com/v1/check/terraform'], setOptions(inputs));
             const curlOutput = stdOutput;
-            yield exec.exec(`jq -nr ${quote}$ARGS.jsonText|.currentversion${quote} --argjson jsonText ${quote}${curlOutput}${quote}`, [], setOptions(inputs));
+            yield exec.exec('jq', ['-nr', '$ARGS.jsonText|.currentversion', '--argjson', 'jsonText', curlOutput], setOptions(inputs));
             core.info(`Latest Version is ${askedVersion}`);
         }
         else {
