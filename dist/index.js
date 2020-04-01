@@ -11424,7 +11424,7 @@ function executeDownload(TERRAFORM_VERSION, inputs) {
         let askedVersion = '';
         if (inputs.version === 'latest') {
             yield exec.exec('curl', ['-s', 'https://checkpoint-api.hashicorp.com/v1/check/terraform'], setOptions(inputs));
-            yield exec.exec('jq', ['-nr', `'$jsonText|.current_version'`, '--argjson', 'jsonText', stdOutput], setOptions(inputs));
+            yield exec.exec('jq', ['-n', '-r', `'$jsonText|.current_version'`, '--argjson', 'jsonText', stdOutput], setOptions(inputs));
             askedVersion = stdOutput;
             core.info(`Latest Version is ${askedVersion}`);
         }

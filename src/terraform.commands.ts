@@ -431,7 +431,7 @@ export async function executeDownload(TERRAFORM_VERSION: string, inputs: Downloa
 
     await exec.exec(
       'jq',
-      ['-nr', `'$jsonText|.current_version'`, '--argjson', 'jsonText', stdOutput],
+      ['-n', '-r', `'$jsonText|.current_version'`, '--argjson', 'jsonText', stdOutput],
       setOptions(inputs)
     )
     askedVersion = stdOutput
