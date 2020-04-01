@@ -428,13 +428,15 @@ export async function executeDownload(TERRAFORM_VERSION: string, inputs: Downloa
   let askedVersion = ''
   if (inputs.version === 'latest') {
     await exec.exec('curl', ['-s', 'https://checkpoint-api.hashicorp.com/v1/check/terraform'], setOptions(inputs))
-
+    const curlOutput = stdOutput
+    stdOutput = ''
     await exec.exec(
       'jq',
-      ['-n', '-r', `"$jsonText|.current_version"`, '--argjson', 'jsonText', stdOutput],
+      ['-n', '-r', `'$jsonText|.current_version'`, '--argjson', 'jsonText', curlOutput],
       setOptions(inputs)
     )
     askedVersion = stdOutput
+    stdOutput = ''
     core.info(`Latest Version is ${askedVersion}`)
   } else {
     askedVersion = inputs.version
