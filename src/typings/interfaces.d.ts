@@ -192,6 +192,10 @@ interface ForceUnlockTerraformOptions {
   dir?: string
 }
 
+interface DownloadTerraformOptions {
+  version?: string
+}
+
 interface StateTerraformOptions {
   subcommand: 'list' | 'mv' | 'pull' | 'push' | 'rm' | 'show'
   state?: string
@@ -234,6 +238,7 @@ export type Upgrade012Options = Upgrade012TerraformOptions & ExecOptions & Artif
 export type DebugOptions = DebugTerraformOptions & ExecOptions & Artifact & UploadOptions
 export type ForceUnlockOptions = ForceUnlockTerraformOptions & ExecOptions & Artifact & UploadOptions
 export type StateOptions = StateTerraformOptions & ExecOptions & Artifact & UploadOptions
+export type DownloadOptions = DownloadTerraformOptions & ExecOptions & Artifact & UploadOptions
 
 export type TerraformOptions =
   | ApplyOptions
@@ -258,3 +263,4 @@ export type TerraformOptions =
   | DebugOptions
   | ForceUnlockOptions
   | StateOptions
+  | DownloadOptions
