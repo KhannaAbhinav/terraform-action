@@ -11033,6 +11033,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = __webpack_require__(611);
 const exec = __importStar(__webpack_require__(986));
 const core = __importStar(__webpack_require__(470));
+const io = __importStar(__webpack_require__(1));
 const tc = __importStar(__webpack_require__(533));
 let stdOutput = '';
 let stdError = '';
@@ -11420,8 +11421,8 @@ function executeDownload(TERRAFORM_VERSION, inputs) {
         }
         let askedVersion = '';
         if (inputs.version === 'latest') {
-            yield exec.exec(`curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version'`, [], setOptions(inputs));
-            askedVersion = stdOutput;
+            yield exec.exec(`curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform`, [], setOptions(inputs));
+            yield exec.exec(`jq -r -M '.current_version' <<< '${stdOutput}'`, [], setOptions(inputs));
             core.info(`Latest Version is ${askedVersion}`);
         }
         else {
@@ -11434,6 +11435,7 @@ function executeDownload(TERRAFORM_VERSION, inputs) {
         if (installedVersion !== `Terraform v${askedVersion}`) {
             const terraformDownloadLink = `https://releases.hashicorp.com/terraform/${askedVersion}/terraform_${askedVersion}_${os}_amd64.zip`;
             const terraformPath = yield tc.downloadTool(terraformDownloadLink);
+            io.mkdirP(tfLocation);
             const terraformExtractedFolder = yield tc.extractZip(terraformPath, tfLocation);
             process.env.CUSTOM_TERRAFORM_LOCATION = terraformExtractedFolder;
         }

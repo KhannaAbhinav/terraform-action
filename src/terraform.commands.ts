@@ -3,6 +3,8 @@ import {addValueToArgs, uploadFile, uploadDataAsFile} from './utils'
 import {ExecOptions} from '@actions/exec/lib/interfaces'
 import * as exec from '@actions/exec'
 import * as core from '@actions/core'
+import * as io from '@actions/io'
+
 import * as tc from '@actions/tool-cache'
 import {
   ApplyOptions,
@@ -30,6 +32,7 @@ import {
   TerraformOptions,
   DownloadOptions
 } from './typings/interfaces'
+
 let stdOutput = ''
 let stdError = ''
 
@@ -422,12 +425,10 @@ export async function executeDownload(TERRAFORM_VERSION: string, inputs: Downloa
   }
   let askedVersion = ''
   if (inputs.version === 'latest') {
-    await exec.exec(
-      `curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version'`,
-      [],
-      setOptions(inputs)
-    )
-    askedVersion = stdOutput
+    await exec.exec(`curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform`, [], setOptions(inputs))
+
+    await exec.exec(`jq -r -M '.current_version' <<< '${stdOutput}'`, [], setOptions(inputs))
+
     core.info(`Latest Version is ${askedVersion}`)
   } else {
     askedVersion = inputs.version
@@ -441,6 +442,7 @@ export async function executeDownload(TERRAFORM_VERSION: string, inputs: Downloa
   if (installedVersion !== `Terraform v${askedVersion}`) {
     const terraformDownloadLink = `https://releases.hashicorp.com/terraform/${askedVersion}/terraform_${askedVersion}_${os}_amd64.zip`
     const terraformPath = await tc.downloadTool(terraformDownloadLink)
+    io.mkdirP(tfLocation)
     const terraformExtractedFolder = await tc.extractZip(terraformPath, tfLocation)
     process.env.CUSTOM_TERRAFORM_LOCATION = terraformExtractedFolder
   }
