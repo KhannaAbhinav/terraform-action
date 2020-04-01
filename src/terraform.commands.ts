@@ -430,6 +430,8 @@ export async function executeDownload(TERRAFORM_VERSION: string, inputs: Downloa
     await exec.exec('curl', ['-s', 'https://checkpoint-api.hashicorp.com/v1/check/terraform'], setOptions(inputs))
     const curlOutput = stdOutput
     stdOutput = ''
+    await exec.exec('jq', ['--version'], setOptions(inputs))
+    stdOutput = ''
     await exec.exec(
       'jq',
       ['-n', '-r', `'$jsonText|.current_version'`, '--argjson', 'jsonText', curlOutput],
