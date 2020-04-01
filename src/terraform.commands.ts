@@ -419,24 +419,15 @@ export async function executeState(TERRAFORM_VERSION: string, inputs: StateOptio
 export async function executeDownload(TERRAFORM_VERSION: string, inputs: DownloadOptions): Promise<void> {
   let os = 'linux'
   let tfLocation = '/usr/local/terraform'
-  let quote = `'`
+  // let quote = `'`
   if (process.platform === 'win32') {
     os = 'windows'
     tfLocation = 'c:/terraform'
-    quote = `"`
+    // quote = `"`
   }
   let askedVersion = ''
   if (inputs.version === 'latest') {
-    await exec.exec('curl', ['-s', 'https://checkpoint-api.hashicorp.com/v1/check/terraform'], setOptions(inputs))
-    const curlOutput = stdOutput
-    stdOutput = ''
-    await exec.exec('jq', ['--version'], setOptions(inputs))
-    stdOutput = ''
-    await exec.exec(
-      'jq',
-      ['-n', '-r', `${quote}$jsonText|.current_version${quote}`, '--argjson', 'jsonText', curlOutput],
-      setOptions(inputs)
-    )
+    await exec.exec(`curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version'`)
     askedVersion = stdOutput
     stdOutput = ''
     core.info(`Latest Version is ${askedVersion}`)
