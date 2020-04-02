@@ -3,7 +3,6 @@ import {addValueToArgs, uploadFile, uploadDataAsFile} from './utils'
 import {ExecOptions} from '@actions/exec/lib/interfaces'
 import * as exec from '@actions/exec'
 import * as core from '@actions/core'
-import * as io from '@actions/io'
 import * as request from 'request-promise-native'
 
 import * as tc from '@actions/tool-cache'
@@ -451,7 +450,6 @@ export async function executeDownload(TERRAFORM_VERSION: string, inputs: Downloa
   if (installedVersion.trim() !== `Terraform v${askedVersion}`.trim()) {
     const terraformDownloadLink = `https://releases.hashicorp.com/terraform/${askedVersion}/terraform_${askedVersion}_${os}_amd64.zip`
     const terraformPath = await tc.downloadTool(terraformDownloadLink)
-    io.mkdirP(tfLocation)
     const terraformExtractedFolder = await tc.extractZip(terraformPath, `${tfLocation}/${askedVersion}`)
     core.exportVariable('TERRAFORM_PATH', `${terraformExtractedFolder}/terraform`)
   }

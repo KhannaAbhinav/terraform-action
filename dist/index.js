@@ -42082,7 +42082,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = __webpack_require__(611);
 const exec = __importStar(__webpack_require__(986));
 const core = __importStar(__webpack_require__(470));
-const io = __importStar(__webpack_require__(1));
 const request = __importStar(__webpack_require__(375));
 const tc = __importStar(__webpack_require__(139));
 let stdOutput = '';
@@ -42496,7 +42495,6 @@ function executeDownload(TERRAFORM_VERSION, inputs) {
         if (installedVersion.trim() !== `Terraform v${askedVersion}`.trim()) {
             const terraformDownloadLink = `https://releases.hashicorp.com/terraform/${askedVersion}/terraform_${askedVersion}_${os}_amd64.zip`;
             const terraformPath = yield tc.downloadTool(terraformDownloadLink);
-            io.mkdirP(tfLocation);
             const terraformExtractedFolder = yield tc.extractZip(terraformPath, `${tfLocation}/${askedVersion}`);
             core.exportVariable('TERRAFORM_PATH', `${terraformExtractedFolder}/terraform`);
         }
