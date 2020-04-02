@@ -12,15 +12,6 @@ By default, it uses installed Terraform binary version on the Linux Agents. Flex
 ---
 ## Inputs
 
-### version (coming soon)
-Select Terraform version
-
-#### Required
-False
-
-#### default
-default
-
 ### command
 Terradform Command to executed
 
@@ -30,6 +21,32 @@ True
 ### params
 input parameters to the terraform command. Check the valid options [here](https://github.com/KhannaAbhinav/terraform-action/blob/master/src/typings/interfaces.d.ts)
 
+---
+## Terraform Version
+
+An addditional command is added to use custom terraform version
+
+Please refer below for example
+
+```
+steps:
+      .
+      .
+      .
+      - name: Call Terraform Action Download
+        id: tfDownload
+        uses: "KhannaAbhinav/terraform-action@v3"
+        with:
+            command: download
+            params: |
+              {
+                "version" : "<version>"
+              }
+
+      .
+      .
+      .
+```
 
 ---
 
@@ -43,14 +60,7 @@ Standard Output of the command
 
 Standard Error of the command
 
-
 ---
-Planned Enhancements
-
-1. Use any terraform Version to execute the command
-2. Extensive testing. This module is effort of 2 days. It needs some testing.
-
---- 
 
 ## Examples
 
