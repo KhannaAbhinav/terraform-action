@@ -8536,8 +8536,8 @@ const core = __importStar(__webpack_require__(470));
 const terraform_commands_1 = __webpack_require__(885);
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        if (process.env.CUSTOM_TERRAFORM_LOCATION)
-            TERRAFORM_VERSION = process.env.CUSTOM_TERRAFORM_LOCATION;
+        if (process.env.TERRAFORM_PATH)
+            TERRAFORM_VERSION = process.env.TERRAFORM_PATH;
         try {
             const terraformCommand = core.getInput('command');
             let terraformInputs = {};
@@ -42468,7 +42468,7 @@ function executeDownload(TERRAFORM_VERSION, inputs) {
         // let quote = `'`
         if (process.platform === 'win32') {
             os = 'windows';
-            tfLocation = 'c:/terraform';
+            tfLocation = 'd:/terraform';
             // quote = `"`
         }
         let askedVersion = '';
@@ -42498,7 +42498,7 @@ function executeDownload(TERRAFORM_VERSION, inputs) {
             const terraformPath = yield tc.downloadTool(terraformDownloadLink);
             io.mkdirP(tfLocation);
             const terraformExtractedFolder = yield tc.extractZip(terraformPath, tfLocation);
-            core.exportVariable('CUSTOM_TERRAFORM_LOCATION', terraformExtractedFolder);
+            core.exportVariable('TERRAFORM_PATH', terraformExtractedFolder);
         }
     });
 }

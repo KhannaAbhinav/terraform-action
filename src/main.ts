@@ -52,7 +52,7 @@ import {
 } from './typings/interfaces'
 
 async function main(): Promise<void> {
-  if (process.env.CUSTOM_TERRAFORM_LOCATION) TERRAFORM_VERSION = process.env.CUSTOM_TERRAFORM_LOCATION
+  if (process.env.TERRAFORM_PATH) TERRAFORM_VERSION = process.env.TERRAFORM_PATH
   try {
     const terraformCommand = core.getInput('command')
 

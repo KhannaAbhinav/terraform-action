@@ -423,7 +423,7 @@ export async function executeDownload(TERRAFORM_VERSION: string, inputs: Downloa
   // let quote = `'`
   if (process.platform === 'win32') {
     os = 'windows'
-    tfLocation = 'c:/terraform'
+    tfLocation = 'd:/terraform'
     // quote = `"`
   }
   let askedVersion = ''
@@ -453,6 +453,6 @@ export async function executeDownload(TERRAFORM_VERSION: string, inputs: Downloa
     const terraformPath = await tc.downloadTool(terraformDownloadLink)
     io.mkdirP(tfLocation)
     const terraformExtractedFolder = await tc.extractZip(terraformPath, tfLocation)
-    core.exportVariable('CUSTOM_TERRAFORM_LOCATION', terraformExtractedFolder)
+    core.exportVariable('TERRAFORM_PATH', terraformExtractedFolder)
   }
 }
