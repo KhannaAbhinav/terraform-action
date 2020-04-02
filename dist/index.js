@@ -42497,8 +42497,8 @@ function executeDownload(TERRAFORM_VERSION, inputs) {
             const terraformDownloadLink = `https://releases.hashicorp.com/terraform/${askedVersion}/terraform_${askedVersion}_${os}_amd64.zip`;
             const terraformPath = yield tc.downloadTool(terraformDownloadLink);
             io.mkdirP(tfLocation);
-            const terraformExtractedFolder = yield tc.extractZip(terraformPath, tfLocation);
-            core.exportVariable('TERRAFORM_PATH', terraformExtractedFolder);
+            const terraformExtractedFolder = yield tc.extractZip(terraformPath, `${tfLocation}/${askedVersion}`);
+            core.exportVariable('TERRAFORM_PATH', `${terraformExtractedFolder}/terraform`);
         }
     });
 }
