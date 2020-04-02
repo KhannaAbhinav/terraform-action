@@ -434,7 +434,7 @@ export async function executeDownload(TERRAFORM_VERSION: string, inputs: Downloa
     core.info(`Output of http get is ${response}`)
     askedVersion = JSON.parse(response)['current_version']
     stdOutput = ''
-    core.info(`Asked Version is Latest(Terraform v${askedVersion})`)
+    core.info(`Asked Version is Latest(Terraform v${askedVersion})`.trim())
   } else {
     askedVersion = inputs.version
     core.info(`Asked Version is Terraform v${askedVersion}`.trim())
@@ -443,12 +443,12 @@ export async function executeDownload(TERRAFORM_VERSION: string, inputs: Downloa
   try {
     await executeVersion(TERRAFORM_VERSION, inputs as VersionOptions)
     installedVersion = stdOutput
-    core.info(`Installed Version is ${installedVersion}`)
+    core.info(`Installed Version is ${installedVersion}`.trim())
   } catch (err) {
     core.info('No terraform installed')
   }
 
-  if (installedVersion !== `Terraform v${askedVersion}`.trim()) {
+  if (installedVersion.trim() !== `Terraform v${askedVersion}`.trim()) {
     const terraformDownloadLink = `https://releases.hashicorp.com/terraform/${askedVersion}/terraform_${askedVersion}_${os}_amd64.zip`
     const terraformPath = await tc.downloadTool(terraformDownloadLink)
     io.mkdirP(tfLocation)
