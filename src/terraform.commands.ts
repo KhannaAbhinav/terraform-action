@@ -4,6 +4,7 @@ import {ExecOptions} from '@actions/exec/lib/interfaces'
 import * as exec from '@actions/exec'
 import * as core from '@actions/core'
 import * as io from '@actions/io'
+import * as request from 'request-promise-native'
 
 import * as tc from '@actions/tool-cache'
 import {
@@ -428,9 +429,10 @@ export async function executeDownload(TERRAFORM_VERSION: string, inputs: Downloa
   let askedVersion = ''
   if (inputs.version === 'latest') {
     stdOutput = ''
-    await exec.exec(`curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform`)
-    core.info(`Output of curl is ${stdOutput}`)
-    askedVersion = JSON.parse(stdOutput)['current_version']
+    const response = await request.get(`https://checkpoint-api.hashicorp.com/v1/check/terraform`)
+
+    core.info(`Output of http get is ${response}`)
+    askedVersion = JSON.parse(response)['current_version']
     stdOutput = ''
     core.info(`Latest Version is ${askedVersion}`)
   } else {
