@@ -450,7 +450,7 @@ export async function executeDownload(TERRAFORM_VERSION: string, inputs: Downloa
   if (installedVersion.trim() !== `Terraform v${askedVersion}`.trim()) {
     const terraformDownloadLink = `https://releases.hashicorp.com/terraform/${askedVersion}/terraform_${askedVersion}_${os}_amd64.zip`
     const terraformPath = await tc.downloadTool(terraformDownloadLink)
-    const terraformExtractedFolder = await tc.extractZip(terraformPath, `${tfLocation}/${askedVersion}`)
+    const terraformExtractedFolder = await tc.extractZip(terraformPath, `${tfLocation}_${askedVersion}`)
     core.exportVariable('TERRAFORM_PATH', `${terraformExtractedFolder}/terraform`)
   }
 }
