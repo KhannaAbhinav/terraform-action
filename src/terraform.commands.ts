@@ -419,7 +419,7 @@ export async function executeState(TERRAFORM_VERSION: string, inputs: StateOptio
 
 export async function executeDownload(TERRAFORM_VERSION: string, inputs: DownloadOptions): Promise<void> {
   let os = 'linux'
-  let tfLocation = '/usr/local/terraform'
+  let tfLocation = '/usr/local/bin/terraform'
   // let quote = `'`
   if (process.platform === 'win32') {
     os = 'windows'

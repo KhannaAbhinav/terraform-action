@@ -42464,7 +42464,7 @@ exports.executeState = executeState;
 function executeDownload(TERRAFORM_VERSION, inputs) {
     return __awaiter(this, void 0, void 0, function* () {
         let os = 'linux';
-        let tfLocation = '/usr/local/terraform';
+        let tfLocation = '/usr/local/bin/terraform';
         // let quote = `'`
         if (process.platform === 'win32') {
             os = 'windows';
